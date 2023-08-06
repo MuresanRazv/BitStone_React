@@ -33,13 +33,13 @@ header h3 {
 
 header {
   /* spacing */
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: max-content;
   width: 100%;
-  padding: var(--def_padding);
+  padding: calc(max-content - var(--def_padding));
   /* styling */
   background-color: white; }
 
@@ -364,7 +364,7 @@ main {
 /* filter */
 .filter {
   /* positioning */
-  width: 20%;
+  width: max-content;
   height: max-content;
   margin: var(--def_padding);
   /* styling */
@@ -384,5 +384,35 @@ main {
   flex-direction: row;
   justify-content: space-between; }
 
+.filter-container {
+  padding: var(--def_padding);
+  display: flex;
+  flex-direction: column;
+}
+
 /* footer */
 
+/* paging container */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.page-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--def_border_radius);
+  border: 0;
+}
+
+.page-btn:hover {
+  background-color: lightgray;
+}
+
+.page-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}

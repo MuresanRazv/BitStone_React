@@ -1,5 +1,6 @@
+import { ProductsContext } from './App';
 import './index.css'
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 
 function ProductCard({ product }) {
     return (
@@ -8,23 +9,25 @@ function ProductCard({ product }) {
             <div className={"item-information-wrapper"}>
                 <div className={"item-title-wrapper"}>
                     <h2>{product.title}</h2>
-                    <p><i className="fa fa-star" aria-hidden="true"></i><span> ${product.rating}</span></p>
+                    <p><i className="fa fa-star" aria-hidden="true"></i><span>{product.rating}</span></p>
                 </div>
                 <p className={"item-description"}>{product.description}</p>
                 <div className={"item-title-wrapper"}>
                     <button className={"buy-btn"} id={"btn-" + product.id}>Add to cart</button>
+                    <p className="price">${product.price}</p>
                 </div>
             </div>
         </div>
     )
 }
 
-function useFetchProducts(categories = []) {
-    const [products, setProducts] = useState([])
+function useFetchProducts(categories = [], products, setProducts, page = 0) {
+    const [searchInput, setSearchInputs] = useContext(ProductsContext).search
+    const [limit, setLimit] = useContext(ProductsContext).limits
 
     useEffect(() => {
         fetchProducts(categories)
-    }, []);
+    }, [categories]);
 
     const fetchProducts = (categories = []) => {
         // fetch by categories
@@ -47,15 +50,48 @@ function useFetchProducts(categories = []) {
                 })
         }
     }
-    return products
+    let slicedProducts = products.slice(page * limit, (page + 1) * limit)
+    return searchInput === "" ? slicedProducts: slicedProducts.filter((product) => product.title.toLowerCase().includes(searchInput))
 }
 
 export default function Products() {
-    const fetchedProducts = useFetchProducts(["smartphones"])
+    const [ products, setProducts ] = useContext(ProductsContext).product
+    const [ filters, setFilters ] = useContext(ProductsContext).filter
+    const [ page, setPage ] = useContext(ProductsContext).pages
+    const [ active, setActive ] = useState(null)
+    const fetchedProducts = useFetchProducts(filters, products, setProducts, page)
+
+    function PageNumBtn({number}) {
+        return (
+            <button key={number} className={"page-btn"} 
+            onClick={() => 
+                {
+                    setPage(number)
+                    window.scrollTo({top: 0, behavior: 'smooth'})
+                }}
+            style={{backgroundColor: number == page ? "gray": "lightgray"}}
+            >
+                {number + 1}
+            </button>
+        )
+    }
+
+    useEffect(() => {
+        if (active) active.style.backgroundColor = "gray"
+    }, [active])
+
+    
     return (
-        <section id={"items"} className={"items"}>
-            {fetchedProducts.map((fetchedProduct) => <ProductCard product={fetchedProduct} key={fetchedProduct.id}/>)}
-        </section>
+        <div className='page-container'>
+            <section id={"items"} className={"items"}>
+                {fetchedProducts.map((fetchedProduct) => 
+                    <ProductCard 
+                    product={fetchedProduct} key={fetchedProduct.id}/>)}
+            </section>
+            <div className='page-buttons'>
+                {[...Array(Math.ceil(products.length / 10)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
+            </div>
+        </div>
     )
 }
 
