@@ -12,7 +12,7 @@ export default function Header() {
                             <Link to={"/"}>Home</Link>
                         </li>
                         <li>
-                            <Link to={"/products"}>Products</Link>
+                            <Link to={"/shop"}>Products</Link>
                         </li>
                         <li>
                             <a id="cart-btn"><i className="fa fa-shopping-cart" aria-hidden="true"></i>

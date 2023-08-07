@@ -1,11 +1,14 @@
 import {ProductsContext} from '../App';
 import '../index.css'
 import {useContext, useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 function ProductCard({ product }) {
     return (
         <div className="item-card" id={"card" + product.id}>
-            <img alt={product.description} id={product.id} src={product.thumbnail} className={"item-image"}/>
+            <Link to={`/product/${product.id}`} className={"item-link"}>
+                <img alt={product.description} id={product.id} src={product.thumbnail} className={"item-image"}/>
+            </Link>
             <div className={"item-information-wrapper"}>
                 <div className={"item-title-wrapper"}>
                     <h2>{product.title}</h2>

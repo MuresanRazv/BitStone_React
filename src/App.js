@@ -5,12 +5,13 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ProductsPage from "./Products/productsPage";
 import PageLayout from "./pageLayout";
 import Homepage from "./Homepage/homepage";
+import ProductPage from "./Products/productPage";
 
 export const ProductsContext = React.createContext()
 
 let router = createBrowserRouter([
     {
-        path: '/products',
+        path: '/shop',
         loader: () => ({ message: "Hello Data Router!" }),
         Component() {
             return <ProductsPage />
@@ -21,6 +22,13 @@ let router = createBrowserRouter([
         loader: () => ({ message: "Hello Data Router!" }),
         Component() {
             return <PageLayout component={<Homepage />} />
+        }
+    },
+    {
+        path: '/product/:product_id',
+        loader: () => ({ message: "Hello Data Router!" }),
+        Component() {
+            return <PageLayout component={<ProductPage />} />
         }
     }
 ])
