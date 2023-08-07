@@ -407,7 +407,8 @@ main {
 }
 
 .page-btn:hover {
-  background-color: lightgray;
+  background-color: white;
+  cursor: pointer;
 }
 
 .page-buttons {

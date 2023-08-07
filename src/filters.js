@@ -1,8 +1,8 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './index.css'
 import { ProductsContext } from './App';
 
-function FiltersList({ dropFilters }) {
+function FiltersList({ dropFilters, setDropFilters }) {
     const [categories, setCategories] = useState([])
     const [ filters, setFilters ] = useContext(ProductsContext).filter
     const [ pages, setPages ] = useContext(ProductsContext).pages
@@ -29,7 +29,9 @@ function FiltersList({ dropFilters }) {
         return (
             <div className='filter-column'>
                 {categories.map((category) => 
-                    <div className="filter-row" key={category}>
+                    <div className="filter-row" key={category}
+                    onMouseEnter={() => setDropFilters(true)}
+                    onMouseLeave={() => setDropFilters(false)}>
                         <label htmlFor={category}>{capitalizeCategory(category)}</label>
                         <input
                         onChange={(e) => {
@@ -38,6 +40,7 @@ function FiltersList({ dropFilters }) {
                             ? setFilters([...filters, category])
                             : setFilters(filters.filter((value) => value !== category))
                         }}
+                        checked={filters.includes(category)}
                         className="filter-checkbox" type="checkbox" id={category} />
                     </div>
                 )}
@@ -61,11 +64,10 @@ function FilterActionBar() {
             <section className="filter">
                 <div className="filter-box" id="filter-category">
                     <form className="filter-box-form" id="filter-categories">
-                        <input type="text" placeholder='search' 
-                        //onMouseLeave={() => {if (dropFilters) return setDropFilters(!dropFilters)}}
-                        onClick={() => setDropFilters(!dropFilters)} 
+                        <input type="text" placeholder='search'
+                        onMouseEnter={() => setDropFilters(true)}
                         onChange={(e) => setSearchInputs(e.target.value)}/>
-                        <FiltersList dropFilters={dropFilters}/>
+                        <FiltersList setDropFilters={setDropFilters} dropFilters={dropFilters}/>
                     </form>
                 </div>
             </section>

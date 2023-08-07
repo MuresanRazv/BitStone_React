@@ -5,7 +5,7 @@ import {useContext, useEffect, useState} from "react";
 function ProductCard({ product }) {
     return (
         <div className="item-card" id={"card" + product.id}>
-            <img alt = "" id={product.id} src={product.thumbnail} className={"item-image"}/>
+            <img alt={product.description} id={product.id} src={product.thumbnail} className={"item-image"}/>
             <div className={"item-information-wrapper"}>
                 <div className={"item-title-wrapper"}>
                     <h2>{product.title}</h2>
@@ -51,13 +51,14 @@ function useFetchProducts(categories = [], products, setProducts, page = 0) {
         }
     }
     let slicedProducts = products.slice(page * limit, (page + 1) * limit)
-    return searchInput === "" ? slicedProducts: slicedProducts.filter((product) => product.title.toLowerCase().includes(searchInput))
+    return searchInput === "" ? slicedProducts: slicedProducts.filter((product) => product.title.toLowerCase().includes(searchInput.toLowerCase()))
 }
 
 export default function Products() {
     const [ products, setProducts ] = useContext(ProductsContext).product
     const [ filters, setFilters ] = useContext(ProductsContext).filter
     const [ page, setPage ] = useContext(ProductsContext).pages
+    const [ limit, setLimit ] = useContext(ProductsContext).limits
     const [ active, setActive ] = useState(null)
     const fetchedProducts = useFetchProducts(filters, products, setProducts, page)
 
@@ -69,11 +70,27 @@ export default function Products() {
                     setPage(number)
                     window.scrollTo({top: 0, behavior: 'smooth'})
                 }}
-            style={{backgroundColor: number == page ? "gray": "lightgray"}}
+            style={{backgroundColor: number === page ? "gray": "lightgray"}}
             >
                 {number + 1}
             </button>
         )
+    }
+
+    function PageArrowBtn({icon}) {
+        if (products.length / limit > 1)
+            if (icon.split("-").slice(-1)[0] === "left")
+                return (
+                <button onClick={() => setPage(page - 1 >= 0 ? page - 1: products.length / limit - 1)} key={"left"}>
+                    <i className={icon} aria-hidden="true"></i>
+                </button>
+                )
+            else
+                return (
+                    <button onClick={() => setPage(page + 1 < products.length / limit? page + 1: 0)} key={"left"}>
+                        <i className={icon} aria-hidden="true"></i>
+                    </button>
+                )
     }
 
     useEffect(() => {
@@ -89,7 +106,9 @@ export default function Products() {
                     product={fetchedProduct} key={fetchedProduct.id}/>)}
             </section>
             <div className='page-buttons'>
-                {[...Array(Math.ceil(products.length / 10)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
+                <PageArrowBtn icon={"fa fa-arrow-left"}/>
+                {[...Array(Math.ceil(products.length / limit)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
+                <PageArrowBtn icon={"fa fa-arrow-right"}/>
             </div>
         </div>
     )
