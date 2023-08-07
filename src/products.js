@@ -45,54 +45,90 @@ function PageArrowBtn({icon}) {
     if (products.length / limit > 1)
         if (icon.split("-").slice(-1)[0] === "left")
             return (
-                <button onClick={() => setPage(page - 1 >= 0 ? page - 1: products.length / limit - 1)} key={"left"}>
+                <button onClick={() => setPage(page - 1 >= 0 ? page - 1: (products.length + limit) / limit - 1)} key={"left"}>
                     <i className={icon} aria-hidden="true"></i>
                 </button>
             )
         else
             return (
-                <button onClick={() => setPage(page + 1 < products.length / limit? page + 1: 0)} key={"left"}>
+                <button onClick={() => setPage(page + 1 < (products.length + limit) / limit ? page + 1: 0)} key={"left"}>
                     <i className={icon} aria-hidden="true"></i>
                 </button>
             )
 }
-
 
 function useFetchProducts(categories = []) {
     const [ products, setProducts ] = useContext(ProductsContext).product
     const [ searchInput, setSearchInputs ] = useContext(ProductsContext).search
     const [ limit, setLimit ] = useContext(ProductsContext).limits
     const [ page, setPage ] = useContext(ProductsContext).pages
+    const [ totalLength, setTotalLength ] = useState(0)
 
     useEffect(() => {
         fetchProducts(categories)
-    }, [categories]);
+    }, [categories, page]);
 
-    const fetchProducts = (categories = []) => {
+    async function getProducts() {
+        let products = localStorage.getItem("products")
+        if (products) {
+            let resultProducts = JSON.parse(products)
+            // needs to be updated
+            if (page * limit >= resultProducts.length)
+                await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${page * limit}`)
+                    .then((res) => res.json())
+                    .then((data) => resultProducts = [...resultProducts, ...data.products])
+
+            localStorage.setItem("products", JSON.stringify(resultProducts))
+            return resultProducts
+        } else {
+            let resultProducts
+            await fetch(`https://dummyjson.com/products`)
+                .then((res) => res.json())
+                .then((data) => resultProducts = data.products)
+            localStorage.setItem("products", JSON.stringify(resultProducts))
+            return resultProducts
+        }
+    }
+
+    async function getProductsByCategory(category) {
+        let productsByCategory = localStorage.getItem("productsByCategory")
+
+        if (!productsByCategory) localStorage.setItem("productsByCategory", "{}")
+
+        let allCategories = JSON.parse(productsByCategory)
+        // needs to be updated
+        if (!allCategories[category]) {
+            await fetch(`https://dummyjson.com/products/category/${category}`)
+                .then(res => res.json())
+                .then(data => allCategories[category] = data.products)
+        }
+
+        localStorage.setItem("productsByCategory", JSON.stringify(allCategories))
+        return allCategories[category]
+    }
+
+    const fetchProducts = async (categories = []) => {
         // fetch by categories
-        const currentProducts = []
+        let currentProducts = []
         if (categories.length > 0) {
-            const promises = []
             for (const category of categories) {
-                const promise = fetch(`https://dummyjson.com/products/category/${category}`)
-                    .then(res => res.json()).then(data => data.products.forEach(
-                        (product) => currentProducts.push(product))
-                    )
-                promises.push(promise)
+                currentProducts = [...currentProducts, ...await getProductsByCategory(category)]
             }
-            Promise.all(promises).finally(() => setProducts(currentProducts))
+            setProducts(currentProducts)
 
         } else {
-            fetch('https://dummyjson.com/products')
-                .then(res => res.json()).then(data => {
-                    setProducts(data.products)
-                })
+            setProducts(await getProducts())
+
         }
     }
     let filteredProducts = searchInput === "" ? products
         : products.filter((product) => product.title.toLowerCase().includes(searchInput.toLowerCase()))
 
-    let length = searchInput === "" ? products.length / limit: filteredProducts.length / limit
+    let length
+
+    categories.length > 0
+        ? length = searchInput === "" ? products.length / limit: filteredProducts.length / limit
+        : length = searchInput === "" ? (products.length + limit) / limit: filteredProducts.length / limit
 
     filteredProducts = filteredProducts.slice(page * limit, (page + 1) * limit)
 

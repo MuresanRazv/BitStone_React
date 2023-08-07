@@ -56,7 +56,7 @@ function FilterActionBar() {
     return (
         <div className='filter-container'>
             <p>Products per page:</p>
-            <select onChange={(e) => setLimit(e.target.value)} name='Products per page'>
+            <select onChange={(e) => setLimit(Number(e.target.value))} name='Products per page'>
                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={15}>15</option>
