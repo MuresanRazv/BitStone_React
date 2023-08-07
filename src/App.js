@@ -1,36 +1,32 @@
 import './App.css';
 import './index.css'
-import Products from './products'
-import Filters from './filters';
-import Header from './header'
-import {useEffect, useState} from 'react';
 import React from 'react';
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import ProductsPage from "./Products/productsPage";
+import PageLayout from "./pageLayout";
+import Homepage from "./Homepage/homepage";
 
 export const ProductsContext = React.createContext()
 
-function App() {
-    const [filters, setFilters] = useState([])
-    const [products, setProducts] = useState([])
-    const [searchInput, setSearchInputs] = useState("")
-    const [page, setPage] = useState(0)
-    const [limit, setLimit] = useState(5)
+let router = createBrowserRouter([
+    {
+        path: '/products',
+        loader: () => ({ message: "Hello Data Router!" }),
+        Component() {
+            return <ProductsPage />
+        }
+    },
+    {
+        path: '/',
+        loader: () => ({ message: "Hello Data Router!" }),
+        Component() {
+            return <PageLayout component={<Homepage />} />
+        }
+    }
+])
 
-    return (
-        // main section
-        <main>
-            <Header />
-            <ProductsContext.Provider
-                value={{
-                    filter: [filters, setFilters],
-                    product: [products, setProducts],
-                    search: [searchInput, setSearchInputs],
-                    pages: [page, setPage],
-                    limits: [limit, setLimit]}}>
-                <Filters />
-                <Products />
-            </ProductsContext.Provider>
-        </main>
-    );
+function App() {
+    return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
 }
 
 export default App;
