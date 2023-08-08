@@ -1,11 +1,12 @@
 import Header from "./header";
 import React from "react";
+import {Outlet} from "react-router-dom";
 
-export default function PageLayout({component}) {
+export default function PageLayout() {
     return (
         <main>
             <Header />
-            {component}
+            <Outlet />
         </main>
     )
 }

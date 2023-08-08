@@ -1,40 +1,33 @@
 import './App.css';
-import './index.css'
+import './index.scss'
 import React from 'react';
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import ProductsPage from "./Products/productsPage";
 import PageLayout from "./pageLayout";
 import Homepage from "./Homepage/homepage";
 import ProductPage from "./Products/productPage";
+import Login from "./Login/login";
+import {ProtectedLayout} from "./Login/protectedLayout";
+import CartPage from "./Cart/cartPage";
 
 export const ProductsContext = React.createContext()
-
-let router = createBrowserRouter([
-    {
-        path: '/shop',
-        loader: () => ({ message: "Hello Data Router!" }),
-        Component() {
-            return <ProductsPage />
-        }
-    },
-    {
-        path: '/',
-        loader: () => ({ message: "Hello Data Router!" }),
-        Component() {
-            return <PageLayout component={<Homepage />} />
-        }
-    },
-    {
-        path: '/product/:product_id',
-        loader: () => ({ message: "Hello Data Router!" }),
-        Component() {
-            return <PageLayout component={<ProductPage />} />
-        }
-    }
-])
+export const CartContext = React.createContext()
 
 function App() {
-    return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
+    return (
+        <Routes>
+            <Route element={<PageLayout />}>
+                <Route path={"/"} element={<Homepage />} />
+                <Route path={"/login"} element={<Login />} />
+                <Route path={"/products"} element={<ProductsPage />} />
+                <Route path={"/product/:product_id"} element={<ProductPage />}/>
+            </Route>
+            <Route path={"/user"} element={<ProtectedLayout />}>
+                <Route path={"/user/cart"} element={<CartPage />}/>
+                {/*<Route path={"/account"} element={<AccountPage />}/> TODO */}
+            </Route>
+        </Routes>
+    )
 }
 
 export default App;

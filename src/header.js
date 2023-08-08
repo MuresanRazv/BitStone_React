@@ -1,7 +1,19 @@
 import './index.css'
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
+import {useAuth} from "./Login/login";
 
 export default function Header() {
+    const { logout, authKey } = useAuth()
+
+    const LogOut = () => {
+        if (authKey)
+            return (
+                <li>
+                    <a onClick={logout}>Log Out</a>
+                </li>
+            )
+    }
+
     return (
         <header id={"header"}>
             <div className={"container"}>
@@ -12,12 +24,15 @@ export default function Header() {
                             <Link to={"/"}>Home</Link>
                         </li>
                         <li>
-                            <Link to={"/shop"}>Products</Link>
+                            <Link to={"/products"}>Products</Link>
                         </li>
                         <li>
-                            <a id="cart-btn"><i className="fa fa-shopping-cart" aria-hidden="true"></i>
-                            <span id="cart-nr"></span></a>
+                            <Link to={!authKey ? "/login": "/cart"}>
+                                <a id="cart-btn"><i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span id="cart-nr"></span></a>
+                            </Link>
                         </li>
+                        <LogOut />
                     </ul>
                 </nav>
             </div>

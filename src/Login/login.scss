@@ -1,0 +1,17 @@
+.login-form {
+  /* spacing */
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-container {
+  display: flex;
+  height: 100vh
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}

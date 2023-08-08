@@ -134,20 +134,7 @@ function useFetchProducts(categories = []) {
 
     filteredProducts = filteredProducts.slice(page * limit, (page + 1) * limit)
 
-    return (
-        <>
-            <section id={"items"} className={"items"}>
-                {filteredProducts.map((fetchedProduct) =>
-                    <ProductCard
-                        product={fetchedProduct} key={fetchedProduct.id}/>)}
-            </section>
-            <div className='page-buttons'>
-                <PageArrowBtn icon={"fa fa-arrow-left"}/>
-                {[...Array(Math.ceil(length)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
-                <PageArrowBtn icon={"fa fa-arrow-right"}/>
-            </div>
-        </>
-    )
+    return { filteredProducts, length }
 }
 
 export default function Products() {
@@ -156,7 +143,16 @@ export default function Products() {
     
     return (
         <div className='page-container'>
-            {products}
+            <section id={"items"} className={"items"}>
+                {products.filteredProducts.map((fetchedProduct) =>
+                    <ProductCard
+                        product={fetchedProduct} key={fetchedProduct.id}/>)}
+            </section>
+            <div className='page-buttons'>
+                <PageArrowBtn icon={"fa fa-arrow-left"}/>
+                {[...Array(Math.ceil(products.length)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
+                <PageArrowBtn icon={"fa fa-arrow-right"}/>
+            </div>
         </div>
     )
 }

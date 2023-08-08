@@ -1,9 +1,7 @@
 import React, {useState} from "react";
-import Header from "../header";
 import Filters from "./filters";
 import Products from "./products";
-import {ProductsContext} from "../App";
-import PageLayout from "../pageLayout";
+import {CartContext, ProductsContext} from "../App";
 
 export default function ProductsPage() {
     const [filters, setFilters] = useState([])
@@ -11,9 +9,9 @@ export default function ProductsPage() {
     const [searchInput, setSearchInputs] = useState("")
     const [page, setPage] = useState(0)
     const [limit, setLimit] = useState(5)
+    const [cart, setCart] = useState()
 
-    let component = <main>
-        <Header/>
+    return (
         <ProductsContext.Provider
             value={{
                 filter: [filters, setFilters],
@@ -23,11 +21,13 @@ export default function ProductsPage() {
                 limits: [limit, setLimit]
             }}>
             <Filters/>
-            <Products/>
+            <CartContext.Provider
+                value={{
+                    cart: [cart, setCart]
+                }}
+                >
+                <Products/>
+            </CartContext.Provider>
         </ProductsContext.Provider>
-    </main>
-
-    return (
-        <PageLayout component={component} />
     )
 }
