@@ -1,0 +1,19 @@
+.account-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 30px auto;
+  height: 100vh;
+  align-items: center;
+}
+
+.account-information-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-buttons-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

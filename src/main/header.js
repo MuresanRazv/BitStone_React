@@ -1,9 +1,15 @@
 import './index.css'
 import {Link, Navigate} from "react-router-dom";
-import {useAuth} from "./Login/login";
+import {useAuth} from "../Login/login";
+import {MiniCart} from "../Cart/cartPage";
+import {useContext} from "react";
+import {CartContext} from "./App";
+import {MiniCartContext} from "./pageLayout";
 
 export default function Header() {
     const { logout, authKey } = useAuth()
+    const cart = useContext(CartContext).cart
+    const [ visible, setVisible ] = useContext(MiniCartContext).visibility
 
     const LogOut = () => {
         if (authKey)
@@ -27,9 +33,12 @@ export default function Header() {
                             <Link to={"/products"}>Products</Link>
                         </li>
                         <li>
-                            <Link to={!authKey ? "/login": "/cart"}>
-                                <a id="cart-btn"><i className="fa fa-shopping-cart" aria-hidden="true"></i>
-                                <span id="cart-nr"></span></a>
+                            <Link
+                                id="cart-btn" to={!authKey ? "/login": "/user/cart"}
+                                onMouseEnter={() => setVisible(true)}
+                            >
+                                <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span id="cart-nr">  {cart ? cart.totalProducts: ""}</span>
                             </Link>
                         </li>
                         <LogOut />

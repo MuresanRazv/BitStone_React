@@ -87,7 +87,7 @@ main {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-column-gap: var(--def_padding);
-  grid-row-gap: var(--def_padding);
+  grid-row-gap: 10px;
   /* styling */ }
 
 .price {
@@ -297,6 +297,7 @@ main {
   background-color: lightgray;
   border-radius: var(--def_border_radius);
   padding: var(--def_padding);
+  top: 25px;
   /* positioning */
   left: calc(100% - 350px);
   position: fixed;
@@ -328,7 +329,7 @@ main {
   /* positioning */
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 30px auto;
   gap: 10px;
   /* styling */
   background-color: lightgray;
@@ -339,17 +340,24 @@ main {
 .cart-page-product {
   /* positioning */
   display: flex;
-  justify-content: space-between; }
-.cart-page-productimg {
+  justify-content: space-between;
+}
+
+.cart-page-product p {
+  margin: auto;
+}
+
+.cart-page-product img {
   width: 50px;
   height: 50px;
   object-fit: scale-down; }
-.cart-page-productbutton {
+.cart-page-product button {
   /* styling */
   width: 30px;
   height: 30px;
+  margin: auto;
   border-radius: var(--def_border_radius); }
-.cart-page-productbutton:hover {
+.cart-page-product button:hover {
   background-color: lightgray;
   cursor: pointer; }
 

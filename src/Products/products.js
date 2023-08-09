@@ -1,9 +1,18 @@
-import {ProductsContext} from '../App';
-import '../index.css'
-import {useContext, useEffect, useState} from "react";
+import {CartContext, ProductsContext} from '../main/App';
+import '../main/index.css'
+import {useContext, useState} from "react";
 import {Link} from "react-router-dom";
+import useFetchProducts from "./useFetchProducts";
+import {MiniCart} from "../Cart/cartPage";
 
 function ProductCard({ product }) {
+    const [ clicked, setClicked ] = useState(false)
+    const cartObj = useContext(CartContext).cartObj.current
+
+    function handleBuy() {
+        if (cartObj) cartObj.handlePlus(product)
+    }
+
     return (
         <div className="item-card" id={"card" + product.id}>
             <Link to={`/product/${product.id}`} className={"item-link"}>
@@ -16,7 +25,13 @@ function ProductCard({ product }) {
                 </div>
                 <p className={"item-description"}>{product.description}</p>
                 <div className={"item-title-wrapper"}>
-                    <button className={"buy-btn"} id={"btn-" + product.id}>Add to cart</button>
+                    <button
+                        className={clicked ? "buy-btn-clicked": "buy-btn"}
+                        id={"btn-" + product.id}
+                        onClick={handleBuy}
+                        >
+                            { clicked ? "Added to cart": "Add to cart" }
+                    </button>
                     <p className="price">${product.price}</p>
                 </div>
             </div>
@@ -60,100 +75,26 @@ function PageArrowBtn({icon}) {
             )
 }
 
-function useFetchProducts(categories = []) {
-    const [ products, setProducts ] = useContext(ProductsContext).product
-    const [ searchInput, setSearchInputs ] = useContext(ProductsContext).search
-    const [ limit, setLimit ] = useContext(ProductsContext).limits
-    const [ page, setPage ] = useContext(ProductsContext).pages
-    const [ totalLength, setTotalLength ] = useState(0)
-
-    useEffect(() => {
-        fetchProducts(categories)
-    }, [categories, page]);
-
-    async function getProducts() {
-        let products = localStorage.getItem("products")
-        if (products) {
-            let resultProducts = JSON.parse(products)
-            // needs to be updated
-            if (page * limit >= resultProducts.length)
-                await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${page * limit}`)
-                    .then((res) => res.json())
-                    .then((data) => resultProducts = [...resultProducts, ...data.products])
-
-            localStorage.setItem("products", JSON.stringify(resultProducts))
-            return resultProducts
-        } else {
-            let resultProducts
-            await fetch(`https://dummyjson.com/products`)
-                .then((res) => res.json())
-                .then((data) => resultProducts = data.products)
-            localStorage.setItem("products", JSON.stringify(resultProducts))
-            return resultProducts
-        }
-    }
-
-    async function getProductsByCategory(category) {
-        let productsByCategory = localStorage.getItem("productsByCategory")
-
-        if (!productsByCategory) localStorage.setItem("productsByCategory", "{}")
-
-        let allCategories = JSON.parse(productsByCategory)
-        // needs to be updated
-        if (!allCategories[category]) {
-            await fetch(`https://dummyjson.com/products/category/${category}`)
-                .then(res => res.json())
-                .then(data => allCategories[category] = data.products)
-        }
-
-        localStorage.setItem("productsByCategory", JSON.stringify(allCategories))
-        return allCategories[category]
-    }
-
-    const fetchProducts = async (categories = []) => {
-        // fetch by categories
-        let currentProducts = []
-        if (categories.length > 0) {
-            for (const category of categories) {
-                currentProducts = [...currentProducts, ...await getProductsByCategory(category)]
-            }
-            setProducts(currentProducts)
-        } else {
-            setProducts(await getProducts())
-        }
-    }
-
-    let filteredProducts = searchInput === "" ? products
-        : products.filter((product) => product.title.toLowerCase().includes(searchInput.toLowerCase()))
-
-    let length
-
-    categories.length > 0
-        ? length = searchInput === "" ? products.length / limit: filteredProducts.length / limit
-        : length = searchInput === "" ? (products.length + limit) / limit: filteredProducts.length / limit
-
-    filteredProducts = filteredProducts.slice(page * limit, (page + 1) * limit)
-
-    return { filteredProducts, length }
-}
-
 export default function Products() {
     const [ filters, setFilters ] = useContext(ProductsContext).filter
     const products = useFetchProducts(filters)
     
     return (
-        <div className='page-container'>
-            <section id={"items"} className={"items"}>
-                {products.filteredProducts.map((fetchedProduct) =>
-                    <ProductCard
-                        product={fetchedProduct} key={fetchedProduct.id}/>)}
-            </section>
-            <div className='page-buttons'>
-                <PageArrowBtn icon={"fa fa-arrow-left"}/>
-                {[...Array(Math.ceil(products.length)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
-                <PageArrowBtn icon={"fa fa-arrow-right"}/>
+        <>
+            <MiniCart />
+            <div className='page-container'>
+                <section id={"items"} className={"items"}>
+                    {products.filteredProducts.map((fetchedProduct) =>
+                        <ProductCard
+                            product={fetchedProduct} key={fetchedProduct.id}/>)}
+                </section>
+                <div className='page-buttons'>
+                    <PageArrowBtn icon={"fa fa-arrow-left"}/>
+                    {[...Array(Math.ceil(products.length)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
+                    <PageArrowBtn icon={"fa fa-arrow-right"}/>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

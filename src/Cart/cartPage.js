@@ -1,11 +1,12 @@
-import {Cart} from "./cart";
+import {useContext, useEffect, useState} from "react";
+import {CartContext} from "../main/App";
+import {Link} from "react-router-dom";
 import {useAuth} from "../Login/login";
-import {useEffect, useState} from "react";
+import {MiniCartContext} from "../main/pageLayout";
 
 export default function CartPage() {
-    const {authKey} = useAuth()
-    const [cart, setCart] = useState(null)
-    const cartObj = new Cart(authKey.data.token, setCart)
+    const cart = useContext(CartContext).cart
+    const cartObj = useContext(CartContext).cartObj.current
 
     useEffect( () => {
         cartObj.getCart()
@@ -18,11 +19,11 @@ export default function CartPage() {
                 <p>{product.title}</p>
                 <p>${Math.floor(product.discountedPrice)}</p>
                 <div className={"cart-page-quantity"}>
-                    <button className={"q-btn"} id={`minus-${product.id}`} onClick={(e) => { handleMinus(product); cartObj.getCart() }}>
+                    <button className={"q-btn"} id={`minus-${product.id}`} onClick={() => cartObj.handleMinus(product)}>
                         <i className={"fa fa-minus"} aria-hidden={"true"}/>
                     </button>
                     <p>{product.quantity}</p>
-                    <button className={"q-btn"} id={`plus-${product.id}`} onClick={(e) => { handlePlus(product); cartObj.getCart() }}>
+                    <button className={"q-btn"} id={`plus-${product.id}`} onClick={() => cartObj.handlePlus(product)}>
                         <i className={"fa fa-plus"} aria-hidden={"true"}/>
                     </button>
                 </div>
@@ -30,18 +31,10 @@ export default function CartPage() {
         )
     }
 
-    async function handlePlus(product) {
-        await cartObj.updateCart([{id: Number(product.id), quantity: 1}])
-    }
-
-    async function handleMinus(product) {
-        await cartObj.updateCart([{id: Number(product.id), quantity: -1}])
-    }
-
     if (cart)
         return (
             <main className={"cart-page-main"}>
-                <div id={"products"} className={"cart-page-quantity"}>
+                <div key={"products"} className={"cart-page-products"}>
                     {
                         cart.products.map((product) => <Product key={product.id} product={product}/>)
                     }
@@ -50,4 +43,35 @@ export default function CartPage() {
             </main>
         )
     return <main className={"cart-page-main"}></main>
+}
+
+export function MiniCart() {
+    const cart = useContext(CartContext).cart
+    const cartObj = useContext(CartContext).cartObj.current
+    const [ visible, setVisible ] = useContext(MiniCartContext).visibility
+
+    useEffect( () => {
+        if (cartObj) cartObj.getCart()
+    }, [])
+
+    return (
+        <>
+            { visible && cart ? (
+                <div id={"cart"} className={"cartVisible"} onMouseLeave={() => setVisible(false)}>
+        {cart.products.map((product) =>
+            <div className="cart-product" key={product.id}>
+                <div className="cart-product-info">
+                    <img src={product.thumbnail} className="cart-product-img" />
+                    <p>{product.title}</p>
+                </div>
+                <p>
+                    x{product.quantity}<br />
+                    <small>${Math.floor((100.0 - product.discountPercentage) / 100 * product.price)}</small>
+                </p>
+            </div>
+        )}
+        </div>
+    ) : ""}
+        </>
+    )
 }

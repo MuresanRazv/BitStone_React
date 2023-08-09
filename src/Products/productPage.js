@@ -1,4 +1,4 @@
-import "../index.scss"
+import "../main/index.scss"
 import { useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 

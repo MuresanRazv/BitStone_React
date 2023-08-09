@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import '../index.css'
-import { ProductsContext } from '../App';
+import '../main/index.css'
+import { ProductsContext } from '../main/App';
 
 function FiltersList({ dropFilters, setDropFilters }) {
     const [ categories, setCategories ] = useState([])

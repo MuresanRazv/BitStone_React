@@ -1,6 +1,6 @@
 import './login.scss'
 import {Navigate, useNavigate} from "react-router-dom";
-import {createContext, useContext, useMemo, useState} from "react";
+import {createContext, useContext, useMemo} from "react";
 import {useLocalStorage} from "./useLocalStorage";
 const AuthContext = createContext()
 
@@ -59,7 +59,7 @@ function LoginForm() {
     }
 
     if (authKey)
-        return <Navigate to={"/account"}/>
+        return <Navigate to={"/user/account"}/>
 
     return (
         <div className={"login-container"}>
