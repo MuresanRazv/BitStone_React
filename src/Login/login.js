@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (data) => {
         setAuthKey(data);
         if (data != null)
-            navigate("/account")
+            navigate("/user/account")
     }
 
     const logout = () => {
@@ -59,7 +59,7 @@ function LoginForm() {
     }
 
     if (authKey)
-        return <Navigate to={"/user/account"}/>
+        return <Navigate to={"/user/account"} replace={true}/>
 
     return (
         <div className={"login-container"}>

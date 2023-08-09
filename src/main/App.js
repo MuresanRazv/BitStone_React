@@ -1,6 +1,6 @@
 import './App.css';
 import './index.scss'
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Route, Routes} from "react-router-dom";
 import ProductsPage from "../Products/productsPage";
 import PageLayout from "./pageLayout";
@@ -18,7 +18,15 @@ export const CartContext = React.createContext()
 function App() {
     const {authKey} = useAuth()
     const [cart, setCart] = useState(null)
-    const cartObj = useRef(authKey ? new Cart(authKey.data.token, setCart): null)
+    const cartObj = useRef(new Cart(null, setCart))
+
+    useEffect( () => {
+        if (authKey) {
+            cartObj.current.setKey(authKey.data.token)
+            cartObj.current.getCart()
+        }
+        else setCart(null)
+    }, [authKey])
 
     return (
         <CartContext.Provider

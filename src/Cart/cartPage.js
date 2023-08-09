@@ -1,16 +1,10 @@
 import {useContext, useEffect, useState} from "react";
 import {CartContext} from "../main/App";
-import {Link} from "react-router-dom";
-import {useAuth} from "../Login/login";
 import {MiniCartContext} from "../main/pageLayout";
 
 export default function CartPage() {
     const cart = useContext(CartContext).cart
     const cartObj = useContext(CartContext).cartObj.current
-
-    useEffect( () => {
-        cartObj.getCart()
-    }, [])
 
     const Product = ({product}) => {
         return (
@@ -35,9 +29,7 @@ export default function CartPage() {
         return (
             <main className={"cart-page-main"}>
                 <div key={"products"} className={"cart-page-products"}>
-                    {
-                        cart.products.map((product) => <Product key={product.id} product={product}/>)
-                    }
+                    {cart ? cart.products.map((product) => <Product key={product.id} product={product}/>): ""}
                 </div>
                 <p>Total: ${Math.floor(cart.discountTotal)}</p>
             </main>
@@ -47,12 +39,8 @@ export default function CartPage() {
 
 export function MiniCart() {
     const cart = useContext(CartContext).cart
-    const cartObj = useContext(CartContext).cartObj.current
     const [ visible, setVisible ] = useContext(MiniCartContext).visibility
 
-    useEffect( () => {
-        if (cartObj) cartObj.getCart()
-    }, [])
 
     return (
         <>

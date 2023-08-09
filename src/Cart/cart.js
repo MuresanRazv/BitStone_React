@@ -9,6 +9,10 @@ export class Cart extends React.Component {
         this.setCart = setCart
     }
 
+    setKey(newKey) {
+        this.authKey = newKey
+    }
+
     state = {
         modified: false
     }
