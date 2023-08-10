@@ -11,9 +11,10 @@ export const AuthProvider = ({ children }) => {
     // test7@mail.com
     // 08x3Tz6sa5@Kl&AJJqty4sBn
     const login = async (data) => {
+        if (data.data.error)
+            throw new Error("Invalid password or email!")
         setAuthKey(data);
-        if (data != null)
-            navigate("/user/account")
+        navigate("/user/account")
     }
 
     const logout = () => {
@@ -38,28 +39,29 @@ export const useAuth = () => {
 };
 
 function LoginForm() {
-    const { login, authKey } = useAuth();
+    const { login } = useAuth();
 
     const handleSubmit = async (event) => {
         event.preventDefault()
 
         const data = new FormData(event.currentTarget)
 
-        // because I need to fetch auth key using email and password
-        await fetch(`http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "email": data.get("email"),
-                "password": data.get("password")
-            })
-        }).then(res => res.json()).then(data => login({data}))
-    }
+        try {
+            // because I need to fetch auth key using email and password
+            await fetch(`http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "email": data.get("email"),
+                    "password": data.get("password")
+                })
+            }).then(res => res.json()).then(data => login({data}))
 
-    if (authKey)
-        return <Navigate to={"/user/account"} replace={true}/>
+            return <Navigate to={"/user/account"} replace={true}/>
+        } catch (err) { alert(err) }
+    }
 
     return (
         <div className={"login-container"}>
