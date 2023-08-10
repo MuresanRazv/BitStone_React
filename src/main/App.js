@@ -24,7 +24,7 @@ function App() {
         isSuccess,
         isError,
         error
-    } = useGetCartQuery(authKey ? authKey.data.token: "")
+    } = useGetCartQuery(authKey ? authKey: "")
     dispatch(setCart(cart))
 
 
