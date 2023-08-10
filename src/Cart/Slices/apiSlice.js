@@ -21,15 +21,15 @@ export const apiSlice = createApi({
             })
         }),
 
-        updateCart: builder.query({
-            query: (cartID, authKey, requestedProducts) => ({
-                url: `/${cartID}`,
+        updateCart: builder.mutation({
+            query: (props) => ({
+                url: `/64c38597d8f95`,
                 method: 'POST',
-                headers: {'Content-Type': 'application/json', 'Internship-Auth': `${authKey}`},
-                body: JSON.stringify({
+                headers: {'Content-Type': 'application/json', 'Internship-Auth': `${props.key}`},
+                body: {
                     userId: 1,
-                    products: requestedProducts
-                })
+                    products: props.product
+                }
             })
         }),
 

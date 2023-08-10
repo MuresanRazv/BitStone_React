@@ -1,9 +1,32 @@
 import {useDispatch, useSelector} from "react-redux";
 import {setVisible} from "./Slices/visibleSlice";
+import {setCart} from "./Slices/cartSlice";
+import {useUpdateCartMutation} from "./Slices/apiSlice";
+import {useAuth} from "../Login/login";
 
 export default function CartPage() {
     const cart = useSelector((state) => state.cart.cart)
-    const cartObj = useSelector((state) => state.cart.cartObj)
+    const [ addToCart, {isLoading} ] = useUpdateCartMutation()
+    const dispatch = useDispatch()
+    const { authKey } = useAuth()
+
+    async function handlePlus(product) {
+        try {
+            let req = await addToCart({key: authKey.data.token, product: [{id: Number(product.id), quantity: 1}]})
+            dispatch(setCart(req.data.data))
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
+
+    async function handleMinus(product) {
+        try {
+            let req = await addToCart({key: authKey.data.token, product: [{id: Number(product.id), quantity: -1}]})
+            dispatch(setCart(req.data.data))
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
 
     const Product = ({product}) => {
         return (
@@ -12,11 +35,11 @@ export default function CartPage() {
                 <p>{product.title}</p>
                 <p>${Math.floor(product.discountedPrice)}</p>
                 <div className={"cart-page-quantity"}>
-                    <button className={"q-btn"} id={`minus-${product.id}`} onClick={() => cartObj.handleMinus(product)}>
+                    <button className={"q-btn"} id={`minus-${product.id}`} onClick={() => handleMinus(product)}>
                         <i className={"fa fa-minus"} aria-hidden={"true"}/>
                     </button>
                     <p>{product.quantity}</p>
-                    <button className={"q-btn"} id={`plus-${product.id}`} onClick={() => cartObj.handlePlus(product)}>
+                    <button className={"q-btn"} id={`plus-${product.id}`} onClick={() => handlePlus(product)}>
                         <i className={"fa fa-plus"} aria-hidden={"true"}/>
                     </button>
                 </div>

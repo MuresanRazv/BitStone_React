@@ -6,13 +6,24 @@ import useFetchProducts from "./useFetchProducts";
 import {MiniCart} from "../Cart/cartPage";
 import {useDispatch, useSelector} from "react-redux";
 import {setPage} from "./Slices/pageSlice";
+import {useUpdateCartMutation} from "../Cart/Slices/apiSlice";
+import {useAuth} from "../Login/login";
+import {setCart} from "../Cart/Slices/cartSlice";
 
 function ProductCard({ product }) {
+    const { authKey } = useAuth()
     const [ clicked, setClicked ] = useState(false)
     const cartObj = useSelector((state) => state.cart.cartObj)
+    const [ addToCart, {isLoading} ] = useUpdateCartMutation()
+    const dispatch = useDispatch()
 
-    function handleBuy() {
-        if (cartObj) cartObj.handlePlus(product)
+    async function handleBuy() {
+        try {
+            let req = await addToCart({key: authKey.data.token, product: [{id: Number(product.id), quantity: 1}]})
+            dispatch(setCart(req.data.data))
+        } catch (e) {
+            console.log(e.message)
+        }
     }
 
     return (

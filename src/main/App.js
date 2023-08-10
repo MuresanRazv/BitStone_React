@@ -10,7 +10,6 @@ import Login, {useAuth} from "../Login/login";
 import {ProtectedLayout} from "../Login/protectedLayout";
 import CartPage from "../Cart/cartPage";
 import AccountPage from "../Account/account";
-import {Cart} from "../Cart/cart";
 import {useDispatch} from "react-redux";
 import {setCart} from "../Cart/Slices/cartSlice";
 import {useGetCartQuery} from "../Cart/Slices/apiSlice";
@@ -26,15 +25,6 @@ function App() {
         error
     } = useGetCartQuery(authKey ? authKey: "")
     dispatch(setCart(cart))
-
-
-    // useEffect( () => {
-    //     if (authKey) {
-    //         cartObj.current.setKey(authKey.data.token)
-    //         cartObj.current.getCart().then((res) => dispatch(setCart(res)))
-    //     }
-    //     else dispatch(setCart(null))
-    // }, [authKey])
 
     return (
         <Routes>
