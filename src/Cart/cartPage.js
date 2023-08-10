@@ -1,10 +1,9 @@
-import {useContext, useEffect, useState} from "react";
-import {CartContext} from "../main/App";
-import {MiniCartContext} from "../main/pageLayout";
+import {useDispatch, useSelector} from "react-redux";
+import {setVisible} from "./Slices/visibleSlice";
 
 export default function CartPage() {
-    const cart = useContext(CartContext).cart
-    const cartObj = useContext(CartContext).cartObj.current
+    const cart = useSelector((state) => state.cart.cart)
+    const cartObj = useSelector((state) => state.cart.cartObj)
 
     const Product = ({product}) => {
         return (
@@ -38,14 +37,14 @@ export default function CartPage() {
 }
 
 export function MiniCart() {
-    const cart = useContext(CartContext).cart
-    const [ visible, setVisible ] = useContext(MiniCartContext).visibility
-
+    const cart = useSelector((state) => state.cart.cart)
+    const visible = useSelector((state) => state.visible)
+    const dispatch = useDispatch()
 
     return (
         <>
             { visible && cart ? (
-                <div id={"cart"} className={"cartVisible"} onMouseLeave={() => setVisible(false)}>
+                <div id={"cart"} className={"cartVisible"} onMouseLeave={() => dispatch(setVisible(false))}>
         {cart.products.map((product) =>
             <div className="cart-product" key={product.id}>
                 <div className="cart-product-info">

@@ -4,10 +4,12 @@ import {useContext, useState} from "react";
 import {Link} from "react-router-dom";
 import useFetchProducts from "./useFetchProducts";
 import {MiniCart} from "../Cart/cartPage";
+import {useDispatch, useSelector} from "react-redux";
+import {setPage} from "./Slices/pageSlice";
 
 function ProductCard({ product }) {
     const [ clicked, setClicked ] = useState(false)
-    const cartObj = useContext(CartContext).cartObj.current
+    const cartObj = useSelector((state) => state.cart.cartObj)
 
     function handleBuy() {
         if (cartObj) cartObj.handlePlus(product)
@@ -40,7 +42,7 @@ function ProductCard({ product }) {
 }
 
 function PageNumBtn({number}) {
-    const [ page, setPage ] = useContext(ProductsContext).pages
+    const page = useSelector((state) => state.page)
 
     return (
         <button key={number} className={"page-btn"}
@@ -56,9 +58,9 @@ function PageNumBtn({number}) {
 }
 
 function PageArrowBtn({icon}) {
-    const [ page, setPage ] = useContext(ProductsContext).pages
-    const [ products, setProducts ] = useContext(ProductsContext).product
-    const [ limit, setLimit ] = useContext(ProductsContext).limits
+    const page = useSelector((state) => state.page)
+    const products = useSelector((state) => state.products)
+    const limit = useSelector((state) => state.limit)
 
     if (products.length / limit > 1)
         if (icon.split("-").slice(-1)[0] === "left")
@@ -76,9 +78,8 @@ function PageArrowBtn({icon}) {
 }
 
 export default function Products() {
-    const [ filters, setFilters ] = useContext(ProductsContext).filter
+    const filters = useSelector((state) => state.filters)
     const products = useFetchProducts(filters)
-    
     return (
         <>
             <MiniCart />

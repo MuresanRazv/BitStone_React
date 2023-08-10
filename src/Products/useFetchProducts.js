@@ -1,12 +1,13 @@
-import {useContext, useEffect, useState} from "react";
-import {ProductsContext} from "../main/App";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {setProducts} from "./Slices/productsSlice";
 
 export default function useFetchProducts(categories = []) {
-    const [ products, setProducts ] = useContext(ProductsContext).product
-    const [ searchInput, setSearchInputs ] = useContext(ProductsContext).search
-    const [ limit, setLimit ] = useContext(ProductsContext).limits
-    const [ page, setPage ] = useContext(ProductsContext).pages
-    const [ totalLength, setTotalLength ] = useState(0)
+    const products = useSelector((state) => state.products)
+    const searchInput = useSelector((state) => state.search)
+    const page = useSelector((state) => state.page)
+    const limit = useSelector((state) => state.limit)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         fetchProducts(categories)
@@ -58,17 +59,16 @@ export default function useFetchProducts(categories = []) {
             for (const category of categories) {
                 currentProducts = [...currentProducts, ...await getProductsByCategory(category)]
             }
-            setProducts(currentProducts)
+            dispatch(setProducts(currentProducts))
         } else {
-            setProducts(await getProducts())
+            dispatch(setProducts(await getProducts()))
         }
     }
 
     let filteredProducts = searchInput === "" ? products
         : products.filter((product) => product.title.toLowerCase().includes(searchInput.toLowerCase()))
 
-    let length
-
+    let length = 0
     categories.length > 0
         ? length = searchInput === "" ? products.length / limit: filteredProducts.length / limit
         : length = searchInput === "" ? (products.length + limit) / limit: filteredProducts.length / limit

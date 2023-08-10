@@ -1,15 +1,13 @@
 import './index.css'
-import {Link, Navigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useAuth} from "../Login/login";
-import {MiniCart} from "../Cart/cartPage";
-import {useContext} from "react";
-import {CartContext} from "./App";
-import {MiniCartContext} from "./pageLayout";
+import {useDispatch, useSelector} from "react-redux";
+import {setVisible} from "../Cart/Slices/visibleSlice";
 
 export default function Header() {
     const { logout, authKey } = useAuth()
-    const cart = useContext(CartContext).cart
-    const [ visible, setVisible ] = useContext(MiniCartContext).visibility
+    const cart = useSelector((state) => state.cart.cart)
+    const dispatch = useDispatch()
 
     const LogOut = () => {
         if (authKey)
@@ -35,7 +33,7 @@ export default function Header() {
                         <li>
                             <Link
                                 id="cart-btn" to={!authKey ? "/login": "/user/cart"}
-                                onMouseEnter={() => setVisible(true)}
+                                onMouseEnter={() => dispatch(setVisible(true))}
                             >
                                 <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                                 <span id="cart-nr">  {cart ? cart.totalProducts: ""}</span>

@@ -1,6 +1,7 @@
 import React from "react";
 
 export class Cart extends React.Component {
+
     constructor(authKey, setCart) {
         super(authKey);
         this.cartID = "64c38597d8f95"
@@ -31,9 +32,9 @@ export class Cart extends React.Component {
                 headers: {'Content-Type': 'application/json', 'Internship-Auth': `${this.authKey}`}
             })
                 .then(res => res.json())
-            this.setCart(this.cart)
             this.modifying(this.state.modified)
         }
+        return this.cart
     }
 
     getStringOfProducts(products) {

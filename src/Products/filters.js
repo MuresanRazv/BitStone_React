@@ -1,12 +1,16 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../main/index.css'
-import { ProductsContext } from '../main/App';
+import {useDispatch, useSelector} from "react-redux";
+import {addFilters, removeFilter, setFilters} from "./Slices/filtersSlice";
+import {setSearchInput} from "./Slices/searchSlice";
+import {setPage} from "./Slices/pageSlice";
+import {setLimit} from "./Slices/limitSlice";
 
 function FiltersList({ dropFilters, setDropFilters }) {
     const [ categories, setCategories ] = useState([])
-    const [ filters, setFilters ] = useContext(ProductsContext).filter
-    const [ pages, setPages ] = useContext(ProductsContext).pages
-    
+    const filters = useSelector((state) => state.filters)
+    const dispatch = useDispatch();
+
     // because fetch returns 'ugly' categories
     function capitalizeCategory(category) {
         let words = category.split("-")
@@ -35,10 +39,10 @@ function FiltersList({ dropFilters, setDropFilters }) {
                         <label htmlFor={category}>{capitalizeCategory(category)}</label>
                         <input
                         onChange={(e) => {
-                            setPages(0)
+                            dispatch(setPage(0))
                             e.target.checked 
-                            ? setFilters([...filters, category])
-                            : setFilters(filters.filter((value) => value !== category))
+                            ? dispatch(addFilters(category))
+                            : dispatch(removeFilter(category))
                         }}
                         checked={filters.includes(category)}
                         className="filter-checkbox" type="checkbox" id={category} />
@@ -50,14 +54,12 @@ function FiltersList({ dropFilters, setDropFilters }) {
 
 function FilterActionBar() {
     const [ dropFilters, setDropFilters ] = useState(false)
-    const [ searchInput, setSearchInputs ] = useContext(ProductsContext).search
-    const [ limit, setLimit ] = useContext(ProductsContext).limits
-    const [ page, setPage ] = useContext(ProductsContext).pages
+    const dispatch = useDispatch();
 
     return (
         <div className='filter-container'>
             <p>Products per page:</p>
-            <select onChange={(e) => { setLimit(Number(e.target.value)); setPage(0) }} name='Products per page'>
+            <select onChange={(e) => { dispatch(setLimit(Number(e.target.value))); dispatch(setPage(0)) }} name='Products per page'>
                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={15}>15</option>
@@ -67,7 +69,7 @@ function FilterActionBar() {
                     <form className="filter-box-form" id="filter-categories">
                         <input type="text" placeholder='search'
                         onMouseEnter={() => setDropFilters(true)}
-                        onChange={(e) => setSearchInputs(e.target.value)}/>
+                        onChange={(e) => dispatch(setSearchInput(e.target.value))}/>
                         <FiltersList setDropFilters={setDropFilters} dropFilters={dropFilters}/>
                     </form>
                 </div>
