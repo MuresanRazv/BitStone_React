@@ -48,7 +48,7 @@ function LoginForm() {
 
         try {
             // because I need to fetch auth key using email and password
-            await fetch(`http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login`, {
+            await fetch(`https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

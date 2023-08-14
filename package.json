@@ -1,7 +1,7 @@
 {
   "name": "bitstone_react_js_remake",
   "version": "0.1.0",
-  "homepage": "https://muresanrazv.github.io/bitstone_react_js_remake",
+  "homepage": "https://MuresanRazv.github.io/BitStone_React/#",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",

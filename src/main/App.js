@@ -18,11 +18,7 @@ function App() {
     const {authKey} = useAuth()
     const dispatch = useDispatch()
     const {
-        data: cart,
-        isLoading,
-        isSuccess,
-        isError,
-        error
+        data: cart
     } = useGetCartQuery(authKey ? authKey: "")
     dispatch(setCart(cart))
 
