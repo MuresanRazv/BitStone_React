@@ -63,10 +63,11 @@ export function MiniCart() {
     const cart = useSelector((state) => state.cart.cart)
     const visible = useSelector((state) => state.visible)
     const dispatch = useDispatch()
+    const { authKey } = useAuth()
 
     return (
         <>
-            { visible && cart ? (
+            { visible && cart && authKey ? (
                 <div id={"cart"} className={"cartVisible"} onMouseLeave={() => dispatch(setVisible(false))}>
         {cart.products.map((product) =>
             <div className="cart-product" key={product.id}>
