@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/bitstone_react_js_remake/static/css/main.646e1917.css",
-    "main.js": "/bitstone_react_js_remake/static/js/main.ad23b2a6.js",
+    "main.js": "/bitstone_react_js_remake/static/js/main.09b1404c.js",
     "static/media/heroheader_img.jpg": "/bitstone_react_js_remake/static/media/heroheader_img.3888043a8adfb4603c80.jpg",
     "index.html": "/bitstone_react_js_remake/index.html",
     "main.646e1917.css.map": "/bitstone_react_js_remake/static/css/main.646e1917.css.map",
-    "main.ad23b2a6.js.map": "/bitstone_react_js_remake/static/js/main.ad23b2a6.js.map"
+    "main.09b1404c.js.map": "/bitstone_react_js_remake/static/js/main.09b1404c.js.map"
   },
   "entrypoints": [
     "static/css/main.646e1917.css",
-    "static/js/main.ad23b2a6.js"
+    "static/js/main.09b1404c.js"
   ]
 }
