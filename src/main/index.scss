@@ -438,3 +438,110 @@ main {
 .logout-btn {
   cursor: pointer;
 }
+
+.star {
+  cursor: pointer;
+}
+
+.rating-pop-up {
+  background: rgba(150, 150, 150, 0.5);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rating-form {
+  position: absolute;
+  z-index: 3000;
+  width: 50%;
+  height: 75%;
+  left: 25%;
+  top: 15%;
+  background-color: var(--def_background);
+  border-radius: var(--def_border_radius);
+}
+
+.rating-form-close-btn {
+  position: absolute;
+  z-index: 999;
+  width: 25px;
+  height: 25px;
+  left: calc(100% - 30px);
+  bottom: calc(100% - 30px);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--def_lower_background);
+    border-radius: var(--def_border_radius);
+  }
+}
+
+.rating-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: var(--def_padding);
+}
+
+.rating-form-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.rating-title {
+  width: 30%;
+}
+
+.rating-description {
+  width: 80%;
+  height: 150px;
+  resize: vertical;
+  max-height: 250px;
+  overflow: scroll;
+}
+
+.rating-form-submit {
+  width: 30%;
+  margin: 0 auto;
+  padding: var(--def_padding);
+  border-radius: var(--def_border_radius);
+  border: 0;
+  font-family: 'Roboto', 'sans-serif';
+  font-weight: 900;
+  font-size: 1.15rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--def_lower_background)
+  }
+}
+
+.product-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.product-rating-card-container {
+  padding: var(--def_padding);
+  background-color: var(--def_lower_background);
+  border-radius: var(--def_border_radius);
+  width: max-content;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.product-page-ratings-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(auto-fill, 120px);
+  grid-row-gap: .5em;
+  grid-column-gap: 1em;
+}

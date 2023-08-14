@@ -1,6 +1,8 @@
 import "../main/index.scss"
 import { useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
+import {useSelector} from "react-redux";
+import RatingPopUp, {Rating} from "./rating";
 
 function ProductTitle({ title }) {
     return (
@@ -69,6 +71,16 @@ function ProductImg({ src }) {
     )
 }
 
+function ProductRatingCard({ rating }) {
+    return (
+        <div className={"product-rating-card-container"}>
+            <h3>{rating.title}</h3>
+            <p>{rating.description}</p>
+            <ProductRating rating={rating.rating}/>
+        </div>
+    )
+}
+
 function Carousel({ images }) {
     const [ index, setIndex ] = useState(0)
     const [ currentImage, setCurrentImage] = useState(<ProductImg src={images[index]} />)
@@ -90,6 +102,7 @@ function Carousel({ images }) {
 export default function ProductPage() {
     const {product_id} = useParams()
     const [ product, setProduct ] = useState()
+    const ratings = useSelector((state) => state.ratings)
 
     const fetchProduct = () => {
         fetch(`https://dummyjson.com/products/${product_id}`)
@@ -101,20 +114,28 @@ export default function ProductPage() {
     }, [])
 
     return (
-        <div>
-            {product &&
-                <section className={"product-container"}>
-                    <Carousel images={product.images}/>
-                    <div className={"product-information"} id={"information"}>
-                        <div id={"product-header"}>
-                            <ProductTitle title={product.title}/>
-                            <ProductCategory category={product.category}/>
+        <>
+            <div className={"product-page-container"}>
+                {product &&
+                    <>
+                        <section className={"product-container"}>
+                            <Carousel images={product.images}/>
+                            <div className={"product-information"} id={"information"}>
+                                <div id={"product-header"}>
+                                    <ProductTitle title={product.title}/>
+                                    <ProductCategory category={product.category}/>
+                                </div>
+                                <ProductDescription description={product.description}/>
+                                <Rating product={product} />
+                                <ProductPrice price={product.price}/>
+                            </div>
+                        </section>
+                        <div className={"product-page-ratings-container"}>
+                            {ratings.map((rating) => <ProductRatingCard key={product.id} rating={rating} />)}
                         </div>
-                        <ProductDescription description={product.description}/>
-                        <ProductRating rating={product.rating}/>
-                        <ProductPrice price={product.price}/>
-                    </div>
-                </section>}
-        </div>
+                    </>}
+            </div>
+            <RatingPopUp />
+        </>
     )
 }

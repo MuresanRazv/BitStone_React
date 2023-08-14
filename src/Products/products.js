@@ -1,6 +1,5 @@
-import {CartContext, ProductsContext} from '../main/App';
 import '../main/index.css'
-import {useContext, useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import useFetchProducts from "./useFetchProducts";
 import {MiniCart} from "../Cart/cartPage";
@@ -9,12 +8,13 @@ import {setPage} from "./Slices/pageSlice";
 import {useUpdateCartMutation} from "../Cart/Slices/apiSlice";
 import {useAuth} from "../Login/login";
 import {setCart} from "../Cart/Slices/cartSlice";
+import RatingPopUp, {Rating} from "./rating";
 
 function ProductCard({ product }) {
     const { authKey } = useAuth()
     const [ clicked, setClicked ] = useState(false)
-    const cartObj = useSelector((state) => state.cart.cartObj)
     const [ addToCart, {isLoading} ] = useUpdateCartMutation()
+    const ratings = useSelector((state) => state.ratings)
     const dispatch = useDispatch()
 
     async function handleBuy() {
@@ -34,7 +34,7 @@ function ProductCard({ product }) {
             <div className={"item-information-wrapper"}>
                 <div className={"item-title-wrapper"}>
                     <h2>{product.title}</h2>
-                    <p><i className="fa fa-star" aria-hidden="true"></i><span>{product.rating}</span></p>
+                    <p><Rating product={product} /></p>
                 </div>
                 <p className={"item-description"}>{product.description}</p>
                 <div className={"item-title-wrapper"}>
@@ -91,8 +91,10 @@ function PageArrowBtn({icon}) {
 export default function Products() {
     const filters = useSelector((state) => state.filters)
     const products = useFetchProducts(filters)
+
     return (
         <>
+            <RatingPopUp />
             <MiniCart />
             <div className='page-container'>
                 <section id={"items"} className={"items"}>
