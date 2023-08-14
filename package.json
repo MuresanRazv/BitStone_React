@@ -1,7 +1,7 @@
 {
   "name": "bitstone_react_js_remake",
   "version": "0.1.0",
-  "homepage": "https://muresanrazv.github.io/bitstone_react_js_remake",
+  "homepage": "https://muresanrazv.github.io/BitStone_React",
   "predeploy": "npm run build",
   "deploy": "gh-pages -d build",
   "dependencies": {
