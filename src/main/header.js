@@ -13,7 +13,9 @@ export default function Header() {
         if (authKey)
             return (
                 <li>
-                    <a onClick={logout}>Log Out</a>
+                    <a
+                        className={"logout-btn"}
+                        onClick={logout}>Log Out</a>
                 </li>
             )
     }
@@ -36,7 +38,7 @@ export default function Header() {
                                 onMouseEnter={() => dispatch(setVisible(true))}
                             >
                                 <i className="fa fa-shopping-cart" aria-hidden="true"></i>
-                                <span id="cart-nr">  {cart ? cart.totalProducts: ""}</span>
+                                <span id="cart-nr">  {cart && authKey ? cart.totalProducts: ""}</span>
                             </Link>
                         </li>
                         <LogOut />

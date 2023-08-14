@@ -17,7 +17,7 @@ export const apiSlice = createApi({
             query: (authKey) => ({
                 url: `/64c38597d8f95`,
                 method: 'GET',
-                headers: {'Content-Type': 'application/json', 'Internship-Auth': `${authKey.data.token}`}
+                headers: {'Content-Type': 'application/json', 'Internship-Auth': `${authKey? authKey.data.token: "" }`}
             })
         }),
 

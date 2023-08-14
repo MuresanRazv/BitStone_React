@@ -8,11 +8,15 @@ export const cartSlice = createSlice({
             return { ...state, cart: action.payload }
         },
 
+        deleteCart: (state, action) => {
+            return { ...state, cart: null }
+        },
+
         setCartObj: (state, action) => {
             return { ...state, cartObj: action.payload }
         }
     }
 })
 
-export const { setCart, setCartObj } = cartSlice.actions
+export const { setCart, setCartObj, deleteCart } = cartSlice.actions
 export default cartSlice.reducer

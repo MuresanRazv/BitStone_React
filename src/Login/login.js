@@ -2,12 +2,15 @@ import './login.scss'
 import {Navigate, useNavigate} from "react-router-dom";
 import {createContext, useContext, useMemo} from "react";
 import {useLocalStorage} from "./useLocalStorage";
+import {useDispatch} from "react-redux";
+import {setCart} from "../Cart/Slices/cartSlice";
 const AuthContext = createContext()
 
 
 export const AuthProvider = ({ children }) => {
     const [authKey, setAuthKey] = useLocalStorage("user", null);
     const navigate = useNavigate();
+
     // test7@mail.com
     // 08x3Tz6sa5@Kl&AJJqty4sBn
     const login = async (data) => {
