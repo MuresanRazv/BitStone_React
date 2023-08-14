@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     // test7@mail.com
     // 08x3Tz6sa5@Kl&AJJqty4sBn
     const login = async (data) => {
-        if (data.data.error)
+        if (!data.products)
             throw new Error("Invalid password or email!")
         setAuthKey(data);
         navigate("/user/account")
