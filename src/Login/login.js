@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     // test7@mail.com
     // 08x3Tz6sa5@Kl&AJJqty4sBn
     const login = async (data) => {
-        if (!data.products)
+        if (!data.data.token)
             throw new Error("Invalid password or email!")
         setAuthKey(data);
         navigate("/user/account")
@@ -81,6 +81,10 @@ function LoginForm() {
 }
 
 export default function Login() {
+    const { authKey } = useAuth()
+    if (authKey)
+        return <Navigate to={"/user/account"} replace={true}/>
+
     return (
         <LoginForm />
     )
