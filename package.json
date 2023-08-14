@@ -2,6 +2,9 @@
   "name": "bitstone_react_js_remake",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://muresanrazv.github.io/bitstone_react_js_remake",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",
@@ -38,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
   }
 }
