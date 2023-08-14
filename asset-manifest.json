@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/BitStone_React/static/css/main.ffc76d23.css",
-    "main.js": "/BitStone_React/static/js/main.09b1404c.js",
+    "main.js": "/BitStone_React/static/js/main.185421ad.js",
     "static/media/heroheader_img.jpg": "/BitStone_React/static/media/heroheader_img.3888043a8adfb4603c80.jpg",
     "index.html": "/BitStone_React/index.html",
     "main.ffc76d23.css.map": "/BitStone_React/static/css/main.ffc76d23.css.map",
-    "main.09b1404c.js.map": "/BitStone_React/static/js/main.09b1404c.js.map"
+    "main.185421ad.js.map": "/BitStone_React/static/js/main.185421ad.js.map"
   },
   "entrypoints": [
     "static/css/main.ffc76d23.css",
-    "static/js/main.09b1404c.js"
+    "static/js/main.185421ad.js"
   ]
 }
