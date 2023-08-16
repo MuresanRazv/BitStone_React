@@ -54,11 +54,12 @@ function ProductCard({ product }) {
 
 function PageNumBtn({number}) {
     const page = useSelector((state) => state.page)
+    const dispatch = useDispatch()
 
     return (
         <button key={number} className={"page-btn"}
                 onClick={() => {
-                    setPage(number)
+                    dispatch(setPage(number))
                     window.scrollTo({top: 0, behavior: 'smooth'})
                 }}
                 style={{backgroundColor: number === page ? "gray" : "lightgray"}}
@@ -72,17 +73,18 @@ function PageArrowBtn({icon}) {
     const page = useSelector((state) => state.page)
     const products = useSelector((state) => state.products)
     const limit = useSelector((state) => state.limit)
+    const dispatch = useDispatch()
 
     if (products.length / limit > 1)
         if (icon.split("-").slice(-1)[0] === "left")
             return (
-                <button onClick={() => setPage(page - 1 >= 0 ? page - 1: (products.length + limit) / limit - 1)} key={"left"}>
+                <button onClick={() => dispatch(setPage(page - 1 >= 0 ? page - 1: (products.length + limit) / limit - 1))} key={"left"}>
                     <i className={icon} aria-hidden="true"></i>
                 </button>
             )
         else
             return (
-                <button onClick={() => setPage(page + 1 < (products.length + limit) / limit - 1? page + 1: 0)} key={"left"}>
+                <button onClick={() => dispatch(setPage(page + 1 < (products.length + limit) / limit - 1? page + 1: 0))} key={"left"}>
                     <i className={icon} aria-hidden="true"></i>
                 </button>
             )

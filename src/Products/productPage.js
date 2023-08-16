@@ -131,7 +131,7 @@ export default function ProductPage() {
                             </div>
                         </section>
                         <div className={"product-page-ratings-container"}>
-                            {ratings.map((rating) => <ProductRatingCard key={product.id} rating={rating} />)}
+                            {ratings.map((rating) => <ProductRatingCard rating={rating} />)}
                         </div>
                     </>}
             </div>
