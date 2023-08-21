@@ -1,6 +1,6 @@
 import './App.css';
 import './index.scss'
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import ProductsPage from "../Products/productsPage";
 import PageLayout from "./pageLayout";
@@ -11,7 +11,7 @@ import {ProtectedLayout} from "../Login/protectedLayout";
 import CartPage from "../Cart/cartPage";
 import AccountPage from "../Account/account";
 import {useDispatch} from "react-redux";
-import {deleteCart, setCart} from "../Cart/Slices/cartSlice";
+import {setCart} from "../Cart/Slices/cartSlice";
 import {useGetCartQuery} from "../Cart/Slices/apiSlice";
 
 function App() {

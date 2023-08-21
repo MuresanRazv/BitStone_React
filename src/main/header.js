@@ -13,9 +13,9 @@ export default function Header() {
         if (authKey)
             return (
                 <li>
-                    <a
+                    <button
                         className={"logout-btn"}
-                        onClick={logout}>Log Out</a>
+                        onClick={logout}>Log Out</button>
                 </li>
             )
     }

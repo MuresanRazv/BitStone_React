@@ -6,7 +6,7 @@ import {useAuth} from "../Login/login";
 
 export default function CartPage() {
     const cart = useSelector((state) => state.cart.cart)
-    const [ addToCart, {isLoading} ] = useUpdateCartMutation()
+    const [ addToCart ] = useUpdateCartMutation()
     const dispatch = useDispatch()
     const { authKey } = useAuth()
 

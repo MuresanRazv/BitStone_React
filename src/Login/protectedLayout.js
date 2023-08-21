@@ -11,7 +11,7 @@ export const ProtectedLayout = () => {
         if (authKey)
             return (
                 <li>
-                    <a className={"logout-btn"} onClick={logout}>Log Out</a>
+                    <button className={"logout-btn"} onClick={logout}>Log Out</button>
                 </li>
             )
     }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../main/index.css'
 import {useDispatch, useSelector} from "react-redux";
-import {addFilters, removeFilter, setFilters} from "./Slices/filtersSlice";
+import {addFilters, removeFilter} from "./Slices/filtersSlice";
 import {setSearchInput} from "./Slices/searchSlice";
 import {setPage} from "./Slices/pageSlice";
 import {setLimit} from "./Slices/limitSlice";

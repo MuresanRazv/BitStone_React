@@ -1,5 +1,4 @@
 import '../main/index.css'
-import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import useFetchProducts from "./useFetchProducts";
 import {MiniCart} from "../Cart/cartPage";
@@ -12,9 +11,8 @@ import RatingPopUp, {Rating} from "./rating";
 
 function ProductCard({ product }) {
     const { authKey } = useAuth()
-    const [ clicked, setClicked ] = useState(false)
-    const [ addToCart, {isLoading} ] = useUpdateCartMutation()
-    const ratings = useSelector((state) => state.ratings)
+    // TODO MAKE A SMALL NOTIFICATION WHEN PRODUCT IS ADDED TO CART
+    const [ addToCart ] = useUpdateCartMutation()
     const dispatch = useDispatch()
 
     async function handleBuy() {
@@ -39,11 +37,11 @@ function ProductCard({ product }) {
                 <p className={"item-description"}>{product.description}</p>
                 <div className={"item-title-wrapper"}>
                     <button
-                        className={clicked ? "buy-btn-clicked": "buy-btn"}
+                        className={"buy-btn"}
                         id={"btn-" + product.id}
                         onClick={handleBuy}
                         >
-                            { clicked ? "Added to cart": "Add to cart" }
+                        Add to cart
                     </button>
                     <p className="price">${product.price}</p>
                 </div>

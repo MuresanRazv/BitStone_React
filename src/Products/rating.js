@@ -5,7 +5,7 @@ import {addRating} from "./Slices/ratingsSlice";
 import {setProduct} from "./Slices/productSlice";
 
 export function Rating({ product }) {
-    const [ starIndex, setStarIndex ] = useState()
+    const [ starIndex, setStarIndex ] = useState(-1)
     const dispatch = useDispatch()
 
     const avg = useSelector((state) => {
@@ -75,7 +75,7 @@ const FormRating = ({ stars }) => (
 
 function RatingForm({ productID }) {
     const dispatch = useDispatch()
-    const [ starIndex, setStarIndex ] = useState()
+    const [ starIndex, setStarIndex ] = useState(0)
     const [ clicked, setClicked ] = useState(false)
 
     const handleSubmit = (event) => {

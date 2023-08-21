@@ -2,8 +2,6 @@ import './login.scss'
 import {Navigate, useNavigate} from "react-router-dom";
 import {createContext, useContext, useMemo} from "react";
 import {useLocalStorage} from "./useLocalStorage";
-import {useDispatch} from "react-redux";
-import {setCart} from "../Cart/Slices/cartSlice";
 const AuthContext = createContext()
 
 
