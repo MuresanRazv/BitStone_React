@@ -19,7 +19,7 @@ export default function useFetchProducts(categories = []) {
             let resultProducts = JSON.parse(products)
             // needs to be updated
             if (page * limit >= resultProducts.length)
-                await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${page * limit}`)
+                await fetch(`http://localhost:3000/products/product?limit=${limit}&skip=${page * limit}`)
                     .then((res) => res.json())
                     .then((data) => resultProducts = [...resultProducts, ...data.products])
 
@@ -27,7 +27,7 @@ export default function useFetchProducts(categories = []) {
             return resultProducts
         } else {
             let resultProducts
-            await fetch(`https://dummyjson.com/products`)
+            await fetch(`http://localhost:3000/products/product`)
                 .then((res) => res.json())
                 .then((data) => resultProducts = data.products)
             localStorage.setItem("products", JSON.stringify(resultProducts))
@@ -43,7 +43,7 @@ export default function useFetchProducts(categories = []) {
         let allCategories = JSON.parse(productsByCategory)
         // needs to be updated
         if (!allCategories[category]) {
-            await fetch(`https://dummyjson.com/products/category/${category}`)
+            await fetch(`127.0.0.1:3000/products?categories=${category}`)
                 .then(res => res.json())
                 .then(data => allCategories[category] = data.products)
         }
