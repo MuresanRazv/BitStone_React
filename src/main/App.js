@@ -13,6 +13,7 @@ import AccountPage from "../Account/account";
 import {useDispatch} from "react-redux";
 import {setCart} from "../Cart/Slices/cartSlice";
 import {useGetCartQuery} from "../Cart/Slices/apiSlice";
+import Register from "../Register/register";
 
 function App() {
     const {authKey} = useAuth()
@@ -27,6 +28,7 @@ function App() {
             <Route element={<PageLayout />}>
                 <Route path={"/"} element={<Homepage />} />
                 <Route path={"/login"} element={<Login />} />
+                <Route path={"/register"} element={<Register />} />
                 <Route path={"/products"} element={<ProductsPage />} />
                 <Route path={"/product/:product_id"} element={<ProductPage />}/>
             </Route>

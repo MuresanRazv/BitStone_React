@@ -17,8 +17,8 @@ function ProductCard({ product }) {
 
     async function handleBuy() {
         try {
-            let req = await addToCart({key: authKey.data.token, product: [{id: Number(product.id), quantity: 1}]})
-            dispatch(setCart(req.data.data))
+            let req = await addToCart({key: authKey, products: [{id: Number(product.id), quantity: 1}]})
+            dispatch(setCart(req.data))
         } catch (e) {
             console.log(e.message)
         }

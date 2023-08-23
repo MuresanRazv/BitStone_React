@@ -11,54 +11,40 @@ export default function useFetchProducts(categories = []) {
 
     useEffect(() => {
         fetchProducts(categories)
-    }, [categories, page]);
+    }, [categories, page, searchInput]);
 
     async function getProducts() {
         let products = localStorage.getItem("products")
-        if (products) {
+        if (products !== "undefined") {
             let resultProducts = JSON.parse(products)
             // needs to be updated
             if (page * limit >= resultProducts.length)
                 await fetch(`http://localhost:3000/products/product?limit=${limit}&skip=${page * limit}`)
                     .then((res) => res.json())
-                    .then((data) => resultProducts = [...resultProducts, ...data.products])
-
+                    .then((data) => resultProducts = [...resultProducts, ...data])
             localStorage.setItem("products", JSON.stringify(resultProducts))
             return resultProducts
         } else {
             let resultProducts
             await fetch(`http://localhost:3000/products/product`)
                 .then((res) => res.json())
-                .then((data) => resultProducts = data.products)
+                .then((data) => resultProducts = data)
             localStorage.setItem("products", JSON.stringify(resultProducts))
             return resultProducts
         }
     }
 
-    async function getProductsByCategory(category) {
-        let productsByCategory = localStorage.getItem("productsByCategory")
-
-        if (!productsByCategory) localStorage.setItem("productsByCategory", "{}")
-
-        let allCategories = JSON.parse(productsByCategory)
-        // needs to be updated
-        if (!allCategories[category]) {
-            await fetch(`127.0.0.1:3000/products?categories=${category}`)
+    // TODO FIX SEARCH
+    async function getProductsByQuery(categories, input) {
+            return await fetch(`http://localhost:3000/products/product?categories=${categories.join(",")}&search=${input}`)
                 .then(res => res.json())
-                .then(data => allCategories[category] = data.products)
-        }
-
-        localStorage.setItem("productsByCategory", JSON.stringify(allCategories))
-        return allCategories[category]
     }
 
     const fetchProducts = async (categories = []) => {
         // fetch by categories
         let currentProducts = []
-        if (categories.length > 0) {
-            for (const category of categories) {
-                currentProducts = [...currentProducts, ...await getProductsByCategory(category)]
-            }
+        if (categories.length > 0 || searchInput.length > 0) {
+            currentProducts = await getProductsByQuery(categories, searchInput)
             dispatch(setProducts(currentProducts))
         } else {
             dispatch(setProducts(await getProducts()))

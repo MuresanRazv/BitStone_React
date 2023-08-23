@@ -5,6 +5,7 @@ import {addFilters, removeFilter} from "./Slices/filtersSlice";
 import {setSearchInput} from "./Slices/searchSlice";
 import {setPage} from "./Slices/pageSlice";
 import {setLimit} from "./Slices/limitSlice";
+import {setProducts} from "./Slices/productsSlice";
 
 function FiltersList({ dropFilters, setDropFilters }) {
     const [ categories, setCategories ] = useState([])

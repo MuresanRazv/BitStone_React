@@ -12,8 +12,8 @@ export default function CartPage() {
 
     async function handlePlus(product) {
         try {
-            let req = await addToCart({key: authKey.data.token, product: [{id: Number(product.id), quantity: 1}]})
-            dispatch(setCart(req.data.data))
+            let req = await addToCart({key: authKey, products: [{id: Number(product.id), quantity: 1}]})
+            dispatch(setCart(req.data))
         } catch (e) {
             console.log(e.message)
         }
@@ -21,8 +21,8 @@ export default function CartPage() {
 
     async function handleMinus(product) {
         try {
-            let req = await addToCart({key: authKey.data.token, product: [{id: Number(product.id), quantity: -1}]})
-            dispatch(setCart(req.data.data))
+            let req = await addToCart({key: authKey, products: [{id: Number(product.id), quantity: -1}]})
+            dispatch(setCart(req.data))
         } catch (e) {
             console.log(e.message)
         }
@@ -53,7 +53,7 @@ export default function CartPage() {
                 <div key={"products"} className={"cart-page-products"}>
                     {cart ? cart.products.map((product) => <Product key={product.id} product={product}/>): ""}
                 </div>
-                <p>Total: ${Math.floor(cart.discountTotal)}</p>
+                <p>Total: ${Math.floor(cart.discountedTotal)}</p>
             </main>
         )
     return <main className={"cart-page-main"}></main>

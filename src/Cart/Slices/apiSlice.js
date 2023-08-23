@@ -11,24 +11,21 @@ function getStringOfProducts(products) {
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart'}),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/cart'}),
     endpoints: builder => ({
         getCart: builder.query({
             query: (authKey) => ({
-                url: `/64c38597d8f95`,
                 method: 'GET',
-                headers: {'Content-Type': 'application/json', 'Internship-Auth': `${authKey? authKey.data.token: "" }`}
+                headers: {'Content-Type': 'application/json', 'Internship-Auth': `${authKey? authKey: "" }`}
             })
         }),
 
         updateCart: builder.mutation({
             query: (props) => ({
-                url: `/64c38597d8f95`,
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', 'Internship-Auth': `${props.key}`},
                 body: {
-                    userId: 1,
-                    products: props.product
+                    "products": props.products
                 }
             })
         }),

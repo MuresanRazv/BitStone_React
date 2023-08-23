@@ -105,7 +105,7 @@ export default function ProductPage() {
     const ratings = useSelector((state) => state.ratings)
 
     const fetchProduct = () => {
-        fetch(`http://localhost:3000/products?id=${product_id}`)
+        fetch(`http://localhost:3000/products/product?id=${product_id}`)
             .then(res => res.json()).then(data => setProduct(data))
     }
 

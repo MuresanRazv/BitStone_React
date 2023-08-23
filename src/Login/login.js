@@ -1,5 +1,5 @@
 import './login.scss'
-import {Navigate, useNavigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {createContext, useContext, useMemo} from "react";
 import {useLocalStorage} from "./useLocalStorage";
 const AuthContext = createContext()
@@ -12,15 +12,21 @@ export const AuthProvider = ({ children }) => {
     // test7@mail.com
     // 08x3Tz6sa5@Kl&AJJqty4sBn
     const login = async (data) => {
-        if (!data.data.token)
-            throw new Error("Invalid password or email!")
+        if (data.message)
+            throw new Error(data.message)
         setAuthKey(data);
         navigate("/user/account")
     }
 
-    const logout = () => {
+    const logout = async () => {
         setAuthKey(null)
-        navigate("/", { replace: true })
+        await fetch('http://localhost:3000/user/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        navigate("/", {replace: true})
     }
 
     const value = useMemo(
@@ -49,7 +55,7 @@ function LoginForm() {
 
         try {
             // because I need to fetch auth key using email and password
-            await fetch('127.0.0.1:3000/user/login', {
+            await fetch('http://localhost:3000/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,7 +64,7 @@ function LoginForm() {
                     "email": data.get("email"),
                     "password": data.get("password")
                 })
-            }).then(res => res.json()).then(data => login({data}))
+            }).then(res => res.json()).then(data => login(data))
 
             return <Navigate to={"/user/account"} replace={true}/>
         } catch (err) { alert(err) }
@@ -76,6 +82,11 @@ function LoginForm() {
                     <input type={"password"} id={"password"} name={"password"} required={true}/>
                 </div>
                 <input type={"submit"} value={"Login"}/>
+                <button>
+                    <Link to={"/register"} className={"create-account-btn"}>
+                        Create Account
+                    </Link>
+                </button>
             </form>
         </div>
     )
