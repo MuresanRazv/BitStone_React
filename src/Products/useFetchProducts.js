@@ -10,7 +10,11 @@ export default function useFetchProducts(categories = []) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchProducts(categories)
+        const getData = setTimeout(() => {
+            fetchProducts(categories)
+        }, 500)
+
+        return () => clearTimeout(getData)
     }, [categories, page, searchInput]);
 
     async function getProducts() {
