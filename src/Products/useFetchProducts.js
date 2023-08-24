@@ -34,10 +34,23 @@ export default function useFetchProducts(categories = []) {
         }
     }
 
-    // TODO FIX SEARCH
     async function getProductsByQuery(categories, input) {
-            return await fetch(`http://localhost:3000/products/product?categories=${categories.join(",")}&search=${input}`)
-                .then(res => res.json())
+        const categoriesQuery = () => {
+            if (categories.length > 0) {
+                return `categories=${categories.join(",")}` }
+            else {
+                return ""
+            }
+        }
+        const searchQuery = () => {
+            if (input.length > 0) {
+                return `search=${input}`
+            } else {
+                return ""
+            }
+        }
+        return await fetch(`http://localhost:3000/products/product?${categoriesQuery()}&${searchQuery()}`)
+            .then(res => res.json())
     }
 
     const fetchProducts = async (categories = []) => {
@@ -51,8 +64,7 @@ export default function useFetchProducts(categories = []) {
         }
     }
 
-    let filteredProducts = searchInput === "" ? products
-        : products.filter((product) => product.title.toLowerCase().includes(searchInput.toLowerCase()))
+    let filteredProducts = products
 
     let length = 0
     categories.length > 0
