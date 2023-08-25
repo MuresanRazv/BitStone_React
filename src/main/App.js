@@ -14,6 +14,8 @@ import {useDispatch} from "react-redux";
 import {setCart} from "../Cart/Slices/cartSlice";
 import {useGetCartQuery} from "../Cart/Slices/apiSlice";
 import Register from "../Register/register";
+import OrderPage from "../Order/order";
+import OrdersPage from "../Order/ordersPage";
 
 function App() {
     const {authKey} = useAuth()
@@ -35,6 +37,8 @@ function App() {
                 <Route path={"/user"} element={<ProtectedLayout />}>
                     <Route path={"/user/cart"} element={<CartPage />}/>
                     <Route path={"/user/account"} element={<AccountPage />}/>
+                    <Route path={"/user/order"} element={<OrderPage />}/>
+                    <Route path={"/user/orders"} element={<OrdersPage />}/>
                 </Route>
         </Routes>
     )

@@ -3,6 +3,7 @@ import {setVisible} from "./Slices/visibleSlice";
 import {setCart} from "./Slices/cartSlice";
 import {useUpdateCartMutation} from "./Slices/apiSlice";
 import {useAuth} from "../Login/login";
+import {Link} from "react-router-dom";
 
 export default function CartPage() {
     const cart = useSelector((state) => state.cart.cart)
@@ -54,6 +55,9 @@ export default function CartPage() {
                     {cart ? cart.products.map((product) => <Product key={product.id} product={product}/>): ""}
                 </div>
                 <p>Total: ${Math.floor(cart.discountedTotal)}</p>
+                <Link to={"/user/order"} replace={true}>
+                    <button>Order now</button>
+                </Link>
             </main>
         )
     return <main className={"cart-page-main"}></main>

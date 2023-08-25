@@ -1,8 +1,26 @@
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {useAuth} from "../Login/login";
+import './order.scss'
+import {useDispatch, useSelector} from "react-redux";
+import {setCart} from "../Cart/Slices/cartSlice";
+
+export function Product({product}) {
+    return (
+        <div className={"product-container"}>
+            <img alt={product.description} src={product.thumbnail} />
+            <div><h3>{product.title}</h3></div>
+            <p>
+                ${Math.floor(product.discountedPrice)}<br />
+                <small>x{product.quantity}</small>
+            </p>
+        </div>
+    )
+}
 
 export default function OrderPage() {
     const {authKey} = useAuth()
+    const cart = useSelector((state) => state.cart.cart)
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -24,27 +42,36 @@ export default function OrderPage() {
                         "city": data.get("city")
                     }
                 })
-            })
-
-            return <Navigate to={"/user/orders"} replace={true} />
-        } catch (err) { alert(err) }
+            }).then(res => res.json()).then(data => {if (data.message) throw new Error(data.message)})
+            navigate("/user/orders")
+        } catch (err) { alert(err.message) }
     }
 
     return (
         <main className={"order-page-main"}>
-            <form onSubmit={handleSubmit} className={"order-form"}>
-                <div className={"order-container"}>
-                    <label htmlFor={"zip"}>Email:</label>
-                    <input type={"text"} id={"zip"} name={"zip"} required={true} />
+            <div className={"products-container"}>
+                {cart?.products.map((product) => <Product key={product.id} product={product}/>)}
+                <hr color={"black"} width={"80%"}/>
+                <h3>Total: ${Math.floor(cart?.discountedTotal)}</h3>
+            </div>
+            <div className={"order-container"}>
+                <form onSubmit={handleSubmit} className={"order-form"}>
+                    <div className={"input-container"}>
+                        <label htmlFor={"zip"}>ZIP Code:</label>
+                        <input type={"text"} id={"zip"} name={"zip"} required={true} />
 
-                    <label htmlFor={"county"}>Username:</label>
-                    <input type={"text"} id={"county"} name={"county"} required={true} />
+                        <label htmlFor={"county"}>County:</label>
+                        <input type={"text"} id={"county"} name={"county"} required={true} />
 
-                    <label htmlFor={"city"}>Password:</label>
-                    <input type={"text"} id={"city"} name={"city"} required={true} />
-                </div>
-                <input type={"submit"} value={"Place order"}/>
-            </form>
+                        <label htmlFor={"city"}>City:</label>
+                        <input type={"text"} id={"city"} name={"city"} required={true} />
+
+                        <label htmlFor={"street"}>Street:</label>
+                        <input type={"text"} id={"street"} name={"street"} required={true} />
+                    </div>
+                    <input type={"submit"} value={"Place order"}/>
+                </form>
+            </div>
         </main>
     )
 }

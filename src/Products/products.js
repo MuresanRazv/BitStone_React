@@ -4,7 +4,7 @@ import useFetchProducts from "./useFetchProducts";
 import {MiniCart} from "../Cart/cartPage";
 import {useDispatch, useSelector} from "react-redux";
 import {setPage} from "./Slices/pageSlice";
-import {useUpdateCartMutation} from "../Cart/Slices/apiSlice";
+import {useGetCartQuery, useUpdateCartMutation} from "../Cart/Slices/apiSlice";
 import {useAuth} from "../Login/login";
 import {setCart} from "../Cart/Slices/cartSlice";
 import RatingPopUp, {Rating} from "./rating";
@@ -91,6 +91,12 @@ function PageArrowBtn({icon}) {
 export default function Products() {
     const filters = useSelector((state) => state.filters)
     const products = useFetchProducts(filters)
+    const {authKey} = useAuth()
+    const dispatch = useDispatch()
+    const {
+        data: cart
+    } = useGetCartQuery(authKey ? authKey: "")
+    dispatch(setCart(cart))
 
     return (
         <>
