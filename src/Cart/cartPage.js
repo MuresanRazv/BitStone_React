@@ -73,7 +73,7 @@ export function MiniCart() {
         <>
             { visible && cart && authKey ? (
                 <div id={"cart"} className={"cartVisible"} onMouseLeave={() => dispatch(setVisible(false))}>
-        {cart.products.map((product) =>
+        {cart.products.length > 0 ? cart.products.map((product) =>
             <div className="cart-product" key={product.id}>
                 <div className="cart-product-info">
                     <img src={product.thumbnail} className="cart-product-img" />
@@ -84,7 +84,8 @@ export function MiniCart() {
                     <small>${Math.floor((100.0 - product.discountPercentage) / 100 * product.price)}</small>
                 </p>
             </div>
-        )}
+        ): <p align={"center"}>Empty Cart</p>
+        }
         </div>
     ) : ""}
         </>

@@ -90,6 +90,7 @@ function PageArrowBtn({icon}) {
 
 export default function Products() {
     const filters = useSelector((state) => state.filters)
+    const page = useSelector((state) => state.page)
     const products = useFetchProducts(filters)
     const {authKey} = useAuth()
     const dispatch = useDispatch()
@@ -98,11 +99,25 @@ export default function Products() {
     } = useGetCartQuery(authKey ? authKey: "")
     dispatch(setCart(cart))
 
+    const generatePages = () => {
+        let pages = []
+        let c = 0
+        if (page > 0) {
+            for (let i = page - 1; i >= 0 && c < 3; i--) {
+                pages.push(i)
+                c++
+            }
+        }
+
+        for (let i = page; i < page + 3; i++)
+            pages.push(i)
+        return pages.sort((a, b) => a-b)
+    }
     return (
         <>
             <RatingPopUp />
             <MiniCart />
-            <div className='page-container'>
+                <div className='page-container'>
                 <section id={"items"} className={"items"}>
                     {products.filteredProducts.map((fetchedProduct) =>
                         <ProductCard
@@ -110,7 +125,7 @@ export default function Products() {
                 </section>
                 <div className='page-buttons'>
                     <PageArrowBtn icon={"fa fa-arrow-left"}/>
-                    {[...Array(Math.ceil(products.length)).keys()].map((number) => <PageNumBtn key={number} number={number} />)}
+                    {generatePages().map((number) => <PageNumBtn key={number} number={number} />)}
                     <PageArrowBtn icon={"fa fa-arrow-right"}/>
                 </div>
             </div>

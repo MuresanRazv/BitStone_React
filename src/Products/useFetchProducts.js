@@ -18,24 +18,8 @@ export default function useFetchProducts(categories = []) {
     }, [categories, page, searchInput]);
 
     async function getProducts() {
-        let products = localStorage.getItem("products")
-        if (products !== "undefined") {
-            let resultProducts = JSON.parse(products)
-            // needs to be updated
-            if (page * limit >= resultProducts.length)
-                await fetch(`http://localhost:3000/products/product?limit=${limit}&skip=${page * limit}`)
-                    .then((res) => res.json())
-                    .then((data) => resultProducts = [...resultProducts, ...data])
-            localStorage.setItem("products", JSON.stringify(resultProducts))
-            return resultProducts
-        } else {
-            let resultProducts
-            await fetch(`http://localhost:3000/products/product`)
-                .then((res) => res.json())
-                .then((data) => resultProducts = data)
-            localStorage.setItem("products", JSON.stringify(resultProducts))
-            return resultProducts
-        }
+        return await fetch(`http://localhost:3000/products/product?skip=${limit * page}&limit=${limit}`)
+            .then((res) => res.json())
     }
 
     async function getProductsByQuery(categories, input) {
