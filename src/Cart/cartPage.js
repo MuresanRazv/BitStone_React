@@ -39,7 +39,7 @@ export default function CartPage() {
                     <button className={"q-btn"} id={`minus-${product.id}`} onClick={() => handleMinus(product)}>
                         <i className={"fa fa-minus"} aria-hidden={"true"}/>
                     </button>
-                    <p>{product.quantity}</p>
+                    <p className={"cart-product-quantity"}>{product.quantity}</p>
                     <button className={"q-btn"} id={`plus-${product.id}`} onClick={() => handlePlus(product)}>
                         <i className={"fa fa-plus"} aria-hidden={"true"}/>
                     </button>
@@ -53,10 +53,11 @@ export default function CartPage() {
             <main className={"cart-page-main"}>
                 <div key={"products"} className={"cart-page-products"}>
                     {cart ? cart.products.map((product) => <Product key={product.id} product={product}/>): ""}
+                    <hr width={"100%"} color={"black"}/>
+                    <p align={"center"}>Total: ${Math.floor(cart.discountedTotal)}</p>
                 </div>
-                <p>Total: ${Math.floor(cart.discountedTotal)}</p>
                 <Link to={"/user/order"} replace={true}>
-                    <button>Order now</button>
+                    <button className={"order-button"}>Order now</button>
                 </Link>
             </main>
         )

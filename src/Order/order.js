@@ -1,13 +1,12 @@
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useAuth} from "../Login/login";
 import './order.scss'
-import {useDispatch, useSelector} from "react-redux";
-import {setCart} from "../Cart/Slices/cartSlice";
+import {useSelector} from "react-redux";
 
 export function Product({product}) {
     return (
         <div className={"product-container"}>
-            <img alt={product.description} src={product.thumbnail} />
+            <img className={"cart-product-img"} alt={product.description} src={product.thumbnail} />
             <div><h3>{product.title}</h3></div>
             <p>
                 ${Math.floor(product.discountedPrice)}<br />
