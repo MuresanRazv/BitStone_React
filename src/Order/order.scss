@@ -66,3 +66,30 @@ img {
 h3 {
   text-align: center;
 }
+
+.form-btn {
+  border-radius: 0;
+  border: 1px solid gray;
+  background-color: white;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: lightgray;
+    cursor: pointer;
+  }
+}
+
+.input-box {
+  height: 30px;
+  width: 200px;
+  font-family: 'Roboto', 'sans-serif';
+  font-size: 1rem;
+  border-radius: 0;
+  border: 1px solid gray;
+}
+
+.input-label {
+  font-size: 1.35rem;
+  color: black;
+  font-weight: bold;
+}

@@ -16,7 +16,6 @@ export function Product({product}) {
     )
 }
 
-// TODO MAKE ORDER FORM LOOK GOOD
 export default function OrderPage() {
     const {authKey} = useAuth(),
         cart = useSelector((state) => state.cart.cart),
@@ -57,19 +56,19 @@ export default function OrderPage() {
             <div className={"order-container"}>
                 <form onSubmit={handleSubmit} className={"order-form"}>
                     <div className={"input-container"}>
-                        <label htmlFor={"zip"}>ZIP Code:</label>
-                        <input type={"text"} id={"zip"} name={"zip"} required={true} />
+                        <label className={"input-label"} htmlFor={"zip"}>ZIP Code</label>
+                        <input className={"input-box"} type={"text"} id={"zip"} name={"zip"} required={true} />
 
-                        <label htmlFor={"county"}>County:</label>
-                        <input type={"text"} id={"county"} name={"county"} required={true} />
+                        <label className={"input-label"} htmlFor={"county"}>County</label>
+                        <input className={"input-box"} type={"text"} id={"county"} name={"county"} required={true} />
 
-                        <label htmlFor={"city"}>City:</label>
-                        <input type={"text"} id={"city"} name={"city"} required={true} />
+                        <label className={"input-label"} htmlFor={"city"}>City</label>
+                        <input className={"input-box"} type={"text"} id={"city"} name={"city"} required={true} />
 
-                        <label htmlFor={"street"}>Street:</label>
-                        <input type={"text"} id={"street"} name={"street"} required={true} />
+                        <label className={"input-label"} htmlFor={"street"}>Street</label>
+                        <input className={"input-box"} type={"text"} id={"street"} name={"street"} required={true} />
                     </div>
-                    <input type={"submit"} value={"Place order"}/>
+                    <input className={"form-btn"} type={"submit"} value={"Place order"}/>
                 </form>
             </div>
         </main>
