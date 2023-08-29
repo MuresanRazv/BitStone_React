@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setPopUp} from "./Slices/ratingPopUpSlice";
 import {addRating} from "./Slices/ratingsSlice";
 import {setProduct} from "./Slices/productSlice";
+import {useAuth} from "../Login/login";
 
 export function Rating({ product }) {
     const [ starIndex, setStarIndex ] = useState(-1)
@@ -77,17 +78,25 @@ function RatingForm({ productID }) {
     const dispatch = useDispatch()
     const [ starIndex, setStarIndex ] = useState(0)
     const [ clicked, setClicked ] = useState(false)
+    const {authKey} = useAuth()
 
     const handleSubmit = (event) => {
         event.preventDefault()
 
         const data = new FormData(event.currentTarget)
-        dispatch(addRating({
-            productID,
-            title: data.get("title"),
-            description: data.get("description"),
-            rating: starIndex + 1
-        }))
+
+        fetch(`http://localhost:3000/reviews/${productID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Internship-Auth': authKey
+            },
+            body: JSON.stringify({
+                title: data.get("title"),
+                description: data.get("description"),
+                rating: starIndex + 1
+            })
+        }).then(res => res.json()).then(data => {if (data.message) alert(data.message)})
     }
 
     const stars = Array.from({ length: 5 }).map((_, index) => (

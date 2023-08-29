@@ -3,6 +3,7 @@ import { useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import RatingPopUp, {Rating} from "./rating";
+import {useAuth} from "../Login/login";
 
 function ProductTitle({ title }) {
     return (
@@ -30,7 +31,7 @@ function ProductDescription({ description }) {
 
 function ProductRating({ rating }) {
     return (
-        <p>
+        <p style={{textAlign: "center"}}>
             <i className={"fa fa-star"} aria-hidden={"true"} />
             <span id={"product-rating"}>{rating}</span>
         </p>
@@ -71,10 +72,36 @@ function ProductImg({ src }) {
     )
 }
 
-function ProductRatingCard({ rating }) {
+function ProductRatingCard({ rating, setRatings, productID }) {
+    const userID = useSelector((state) => state?.cart?.cart?.userId)
+    const {authKey} = useAuth();
+
+    const handleRemove = async () => {
+        await fetch(`http://localhost:3000/reviews/${rating._id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Internship-Auth': authKey
+            },
+            body: JSON.stringify({
+                productID: productID
+            })
+        })
+        fetch(`http://localhost:3000/reviews/${productID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res => res.json()).then(ratings => setRatings(ratings))
+    }
+
     return (
         <div className={"product-rating-card-container"}>
+            <button className={"rating-delete-btn"} onClick={handleRemove}>
+                <i className="fa fa-times" aria-hidden="true"></i>
+            </button>
             <h3>{rating.title}</h3>
+            <small className={"rating-username"}>By {rating.userID !== userID ? rating.username: "You"}</small>
             <p>{rating.description}</p>
             <ProductRating rating={rating.rating}/>
         </div>
@@ -102,15 +129,25 @@ function Carousel({ images }) {
 export default function ProductPage() {
     const {product_id} = useParams()
     const [ product, setProduct ] = useState()
-    const ratings = useSelector((state) => state.ratings)
+    const [ ratings, setRatings ] = useState([])
 
     const fetchProduct = () => {
         fetch(`http://localhost:3000/products/product?id=${product_id}`)
             .then(res => res.json()).then(data => setProduct(data))
     }
 
+    const fetchRatings = () => {
+        fetch(`http://localhost:3000/reviews/${product_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then((res) => res.json()).then((data) => setRatings(data))
+    }
+
     useEffect(() => {
         fetchProduct()
+        fetchRatings()
     }, [])
 
     return (
@@ -131,7 +168,7 @@ export default function ProductPage() {
                             </div>
                         </section>
                         <div className={"product-page-ratings-container"}>
-                            {ratings.map((rating) => <ProductRatingCard rating={rating} />)}
+                            {ratings.map((rating) => <ProductRatingCard productID={product_id} setRatings={setRatings} rating={rating} />)}
                         </div>
                     </>}
             </div>

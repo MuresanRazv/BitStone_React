@@ -503,7 +503,8 @@ main {
   position: absolute;
   z-index: 3000;
   width: 50%;
-  height: 75%;
+  max-height: 75%;
+  overflow: scroll;
   left: 25%;
   top: 15%;
   background-color: var(--def_background);
@@ -520,9 +521,27 @@ main {
   border: 0;
   background: transparent;
   cursor: pointer;
+  padding-bottom: 2px;
 
   &:hover {
     background: var(--def_lower_background);
+    border-radius: var(--def_border_radius);
+  }
+}
+
+.rating-delete-btn {
+  position: relative;
+  left: calc(100% - 15px);
+  top: 25px;
+  width: max-content;
+  border: 0;
+  background: var(--def_lower_background);
+  cursor: pointer;
+  padding-bottom: 2px;
+  padding-right: 4.5px;
+
+  &:hover {
+    background: white;
     border-radius: var(--def_border_radius);
   }
 }
@@ -545,7 +564,7 @@ main {
 
 .rating-description {
   width: 80%;
-  height: 150px;
+  height: 100px;
   resize: vertical;
   max-height: 250px;
   overflow: scroll;
@@ -577,11 +596,20 @@ main {
   padding: var(--def_padding);
   background-color: var(--def_lower_background);
   border-radius: var(--def_border_radius);
-  width: max-content;
-  height: 150px;
+  width: 200px;
+  height: 170px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+.rating-username {
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  max-width: 150px;
+  background-color: gray;
 }
 
 .product-page-ratings-container {
@@ -589,6 +617,6 @@ main {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(auto-fill, 120px);
-  grid-row-gap: .5em;
+  grid-row-gap: 100px;
   grid-column-gap: 1em;
 }
