@@ -9,7 +9,7 @@ function Status({status}) {
     return (
         <div className={"status-container"}>
             <h3>Status: {status.status}</h3>
-            <h3>Date: {status.date}</h3>
+            <h3>Date: {status.date.split("T")[0].split("-").join(" ")}</h3>
         </div>
     )
 }
@@ -31,7 +31,7 @@ function Order({order}) {
     return (
         <div className={"order-product-container"}>
             {order.products.map((product) => <Product key={product.id + order.date} product={product} />)}
-            <h3>Total: {Math.floor(order.discountedTotal)}</h3>
+            <h3>Total: ${Math.floor(order.discountedTotal)}</h3>
             <hr color={"black"} width={"90%"}/>
             <h3>Statuses:</h3>
             {order.status.map((status) => <Status key={status.date} status={status}/>)}

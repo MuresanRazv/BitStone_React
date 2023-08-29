@@ -41,7 +41,8 @@ header {
   width: 100%;
   padding: calc(max-content - var(--def_padding));
   /* styling */
-  background-color: white; }
+  background-color: white;
+  z-index: 1;}
 
 nav ul {
   /* spacing */
@@ -70,6 +71,19 @@ nav li a:hover {
 
 nav li:last-of-type {
   margin-right: 0; }
+
+.dropdown-content {
+  display: none;
+  background-color: white;
+  border-radius: 1rem;
+}
+
+.header-dropdown:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 24px
+}
 
 /* main section */
 main {
@@ -122,7 +136,7 @@ main {
 .item-image {
   /* styling */
   height: 250px;
-  width: calc(35vh - 2px);
+  width: calc(35vh - 1.5px);
   object-fit: cover;
   border-top-left-radius: var(--def_border_radius);
   border-top-right-radius: var(--def_border_radius);
@@ -130,7 +144,8 @@ main {
 .item-image:hover {
   cursor: pointer;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.18), 0 0 12px 0 rgba(0, 0, 0, 0.15);
-  opacity: 0.8; }
+  opacity: 0.8;
+  z-index: 0}
 
 .item-link {
   height: 250px;
@@ -311,7 +326,8 @@ main {
   position: fixed;
   display: flex;
   flex-direction: column;
-  overflow: scroll; }
+  overflow: scroll;
+  z-index: 2}
 
 .cart-product {
   /* styling */
@@ -411,11 +427,11 @@ main {
 /* filter */
 .filter {
   /* positioning */
-  width: max-content;
+  width: 200px;
   height: max-content;
-  margin: var(--def_padding);
   /* styling */
   border-radius: var(--def_border_radius);
+  margin: 10px 0 0;
   padding: var(--def_padding);
   background-color: lightgray; }
 
@@ -435,6 +451,7 @@ main {
   padding: var(--def_padding);
   display: flex;
   flex-direction: column;
+  width: 232px;
 }
 
 /* footer */

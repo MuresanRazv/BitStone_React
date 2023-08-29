@@ -34,12 +34,12 @@ function App() {
                 <Route path={"/products"} element={<ProductsPage />} />
                 <Route path={"/product/:product_id"} element={<ProductPage />}/>
             </Route>
-                <Route path={"/user"} element={<ProtectedLayout />}>
-                    <Route path={"/user/cart"} element={<CartPage />}/>
-                    <Route path={"/user/account"} element={<AccountPage />}/>
-                    <Route path={"/user/order"} element={<OrderPage />}/>
-                    <Route path={"/user/orders"} element={<OrdersPage />}/>
-                </Route>
+            <Route path={"/user"} element={<ProtectedLayout />}>
+                <Route path={"/user/cart"} element={<CartPage />}/>
+                <Route path={"/user/account"} element={<AccountPage />}/>
+                <Route path={"/user/order"} element={<OrderPage />}/>
+                <Route path={"/user/orders"} element={<OrdersPage />}/>
+            </Route>
         </Routes>
     )
 }

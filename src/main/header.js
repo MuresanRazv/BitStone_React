@@ -1,5 +1,5 @@
 import './index.css'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../Login/login";
 import {useDispatch, useSelector} from "react-redux";
 import {setVisible} from "../Cart/Slices/visibleSlice";
@@ -8,6 +8,7 @@ export default function Header() {
     const { logout, authKey } = useAuth()
     const cart = useSelector((state) => state.cart.cart)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const LogOut = () => {
         if (authKey)
@@ -32,6 +33,18 @@ export default function Header() {
                         <li>
                             <Link to={"/products"}>Products</Link>
                         </li>
+                        {authKey ?
+                            <li>
+                                <div className={"header-dropdown"}>
+                                    <Link className={"dropdown-btn"}>Account</Link>
+                                    <div className={"dropdown-content"}>
+                                        <Link to={"/user/orders"}>
+                                            Orders
+                                        </Link>
+                                    </div>
+                                </div>
+                            </li>
+                            : ""}
                         <li>
                             <Link
                                 id="cart-btn" to={!authKey ? "/login": "/user/cart"}

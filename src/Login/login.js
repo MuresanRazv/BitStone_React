@@ -9,8 +9,6 @@ export const AuthProvider = ({ children }) => {
     const [authKey, setAuthKey] = useLocalStorage("user", null);
     const navigate = useNavigate();
 
-    // test7@mail.com
-    // 08x3Tz6sa5@Kl&AJJqty4sBn
     const login = async (data) => {
         if (data.message)
             throw new Error(data.message)
@@ -74,19 +72,21 @@ function LoginForm() {
         <div className={"login-container"}>
             <form onSubmit={handleSubmit} className={"login-form"}>
                 <div className={"input-container"}>
-                    <label htmlFor={"email"}>Email:</label>
-                    <input type={"text"} id={"email"} name={"email"} required={true}/>
+                    <label className={"input-label"} htmlFor={"email"}>Email</label>
+                    <input className={"input-box"} type={"text"} id={"email"} name={"email"} required={true}/>
                 </div>
                 <div className={"input-container"}>
-                    <label htmlFor={"password"}>Password:</label>
-                    <input type={"password"} id={"password"} name={"password"} required={true}/>
+                    <label className={"input-label"} htmlFor={"password"}>Password</label>
+                    <input className={"input-box"} type={"password"} id={"password"} name={"password"} required={true}/>
                 </div>
-                <input type={"submit"} value={"Login"}/>
-                <button>
-                    <Link to={"/register"} className={"create-account-btn"}>
-                        Create Account
-                    </Link>
-                </button>
+                <div className={"btn-container"}>
+                    <input className={"form-btn login-btn"} type={"submit"} value={"Login"}/>
+                    <button className={"form-btn"}>
+                        <Link to={"/register"} className={"create-account-btn"}>
+                            Create Account
+                        </Link>
+                    </button>
+                </div>
             </form>
         </div>
     )

@@ -4,11 +4,17 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 50px;
+  backdrop-filter: blur(5px);
+  border: 1px solid lightgray;
 }
 
 .login-container {
   display: flex;
   height: 100vh;
+  width: 100%;
+  background-image: url("../img/heroheader_img.jpg");
+  background-size: cover;
 }
 
 .input-container {
@@ -20,4 +26,40 @@
   text-decoration: none;
   cursor: default;
   color: black;
+}
+
+.form-btn {
+  border-radius: 0;
+  border: 0;
+  background-color: white;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: lightgray;
+    cursor: pointer;
+  }
+}
+
+.input-box {
+  height: 30px;
+  width: 200px;
+  font-family: 'Roboto', 'sans-serif';
+  font-size: 1rem;
+  border-radius: 0;
+  border: 0;
+}
+
+.input-label {
+  font-size: 1.35rem;
+  color: white;
+  font-weight: bold;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-btn {
+  width: 80px;
 }

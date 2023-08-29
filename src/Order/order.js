@@ -16,6 +16,7 @@ export function Product({product}) {
     )
 }
 
+// TODO MAKE ORDER FORM LOOK GOOD
 export default function OrderPage() {
     const {authKey} = useAuth()
     const cart = useSelector((state) => state.cart.cart)
