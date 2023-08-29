@@ -3,8 +3,8 @@ import {useEffect, useState} from "react";
 import {useAuth} from "../Login/login";
 
 export default function AccountPage() {
-    const [user, setUser] = useState()
-    const { authKey } = useAuth()
+    const [user, setUser] = useState(),
+        { authKey } = useAuth()
 
     useEffect(() => {
         fetch('http://localhost:3000/user/', {

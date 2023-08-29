@@ -1,14 +1,13 @@
 import './index.css'
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useAuth} from "../Login/login";
 import {useDispatch, useSelector} from "react-redux";
 import {setVisible} from "../Cart/Slices/visibleSlice";
 
 export default function Header() {
-    const { logout, authKey } = useAuth()
-    const cart = useSelector((state) => state.cart.cart)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const { logout, authKey } = useAuth(),
+        cart = useSelector((state) => state.cart.cart),
+        dispatch = useDispatch()
 
     const LogOut = () => {
         if (authKey)

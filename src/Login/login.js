@@ -6,8 +6,8 @@ const AuthContext = createContext()
 
 
 export const AuthProvider = ({ children }) => {
-    const [authKey, setAuthKey] = useLocalStorage("user", null);
-    const navigate = useNavigate();
+    const [authKey, setAuthKey] = useLocalStorage("user", null),
+        navigate = useNavigate();
 
     const login = async (data) => {
         if (data.message)

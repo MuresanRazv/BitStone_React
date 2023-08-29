@@ -40,10 +40,10 @@ function Order({order}) {
 }
 
 export default function OrdersPage() {
-    const {authKey} = useAuth()
-    const [orders, setOrders] = useState()
-    const dispatch = useDispatch()
-    const {
+    const {authKey} = useAuth(),
+        [orders, setOrders] = useState(),
+        dispatch = useDispatch(),
+        {
         data: cart
     } = useGetCartQuery(authKey ? authKey: "")
     dispatch(setCart(cart))

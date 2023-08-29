@@ -7,9 +7,9 @@ import {setPage} from "./Slices/pageSlice";
 import {setLimit} from "./Slices/limitSlice";
 
 function FiltersList({ dropFilters, setDropFilters }) {
-    const [ categories, setCategories ] = useState([])
-    const filters = useSelector((state) => state.filters)
-    const dispatch = useDispatch();
+    const [ categories, setCategories ] = useState([]),
+        filters = useSelector((state) => state.filters),
+        dispatch = useDispatch();
 
     // because fetch returns 'ugly' categories
     function capitalizeCategory(category) {

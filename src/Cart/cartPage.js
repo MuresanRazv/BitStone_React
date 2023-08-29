@@ -6,10 +6,10 @@ import {useAuth} from "../Login/login";
 import {Link} from "react-router-dom";
 
 export default function CartPage() {
-    const cart = useSelector((state) => state.cart.cart)
-    const [ addToCart ] = useUpdateCartMutation()
-    const dispatch = useDispatch()
-    const { authKey } = useAuth()
+    const cart = useSelector((state) => state.cart.cart),
+        [ addToCart ] = useUpdateCartMutation(),
+        dispatch = useDispatch(),
+        { authKey } = useAuth()
 
     async function handlePlus(product) {
         try {
@@ -65,10 +65,10 @@ export default function CartPage() {
 }
 
 export function MiniCart() {
-    const cart = useSelector((state) => state.cart.cart)
-    const visible = useSelector((state) => state.visible)
-    const dispatch = useDispatch()
-    const { authKey } = useAuth()
+    const cart = useSelector((state) => state.cart.cart),
+        visible = useSelector((state) => state.visible),
+        dispatch = useDispatch(),
+        { authKey } = useAuth()
 
     return (
         <>
